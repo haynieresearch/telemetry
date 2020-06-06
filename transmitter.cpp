@@ -1,6 +1,6 @@
 #include<stdlib.h>
 #include <util/crc16.h>
-#include <rtty.h>
+#include "rtty.h"
 
 //Constant Variables
 const int rttyPin = 12;
