@@ -1,0 +1,9 @@
+.cproject
+.git/
+.project
+.settings/
+core/
+spec.d
+Release/
+libraries/
+/.DS_Store
