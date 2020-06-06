@@ -1,10 +1,18 @@
 /*
- * lcdDisplay.cpp
- *
- *  Created on: Jun 6, 2020
- *      Author: lance
- */
+**********************************************************
+* CATEGORY	HARDWARE
+* GROUP		TELEMETRY SYSTEM
+* AUTHOR	LANCE HAYNIE <LANCE@HAYNIEMAIL.COM>
+* DATE		2020-06-05
+* PURPOSE	LCD DISPLAY FUNCTIONS
+* FILE		LCDDISPLAY.CPP
+**********************************************************
+* MODIFICATIONS
+* 2020-06-05 - LHAYNIE - INITIAL VERSION
+**********************************************************
+*/
 
+#include "Arduino.h"
 #include "lcdDisplay.h"
 #include <stdio.h>
 #include <string.h>
@@ -13,8 +21,20 @@
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
+byte squareSymbol[] = {
+  B01100,
+  B10010,
+  B00100,
+  B01000,
+  B11110,
+  B00000,
+  B00000,
+  B00000
+};
+
 void lcdDisplay::init() {
 	lcd.begin(20, 4);
+	lcd.createChar(0, squareSymbol);
 }
 
 void lcdDisplay::splash() {
@@ -26,7 +46,20 @@ void lcdDisplay::splash() {
 }
 
 void lcdDisplay::clear() {
-	lcd.clear();
+	lcd.setCursor(0, 0);lcd.print("                    ");
+	lcd.setCursor(0, 1);lcd.print("                    ");
+	lcd.setCursor(0, 2);lcd.print("                    ");
+	lcd.setCursor(0, 3);lcd.print("                    ");
+}
+
+void lcdDisplay::clearTop() {
+	lcd.setCursor(0, 0);lcd.print("                    ");
+	lcd.setCursor(0, 1);lcd.print("                    ");
+}
+
+void lcdDisplay::clearBottom() {
+	lcd.setCursor(0, 2);lcd.print("                    ");
+	lcd.setCursor(0, 3);lcd.print("                    ");
 }
 
 void lcdDisplay::setCursor(int x, int y) {
@@ -47,4 +80,8 @@ int lcdDisplay::print(int i) {
 char lcdDisplay::print(char c) {
 	lcd.print(c);
 	return 0;
+}
+
+void lcdDisplay::squared() {
+	lcd.write(byte(0));
 }

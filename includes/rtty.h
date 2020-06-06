@@ -1,5 +1,19 @@
-#ifndef RTTY_h
-#define RTTY_h
+/*
+**********************************************************
+* CATEGORY	HARDWARE
+* GROUP		TELEMETRY SYSTEM
+* AUTHOR	LANCE HAYNIE <LANCE@HAYNIEMAIL.COM>
+* DATE		2020-06-05
+* PURPOSE	RTTY FUNCTIONS
+* FILE		RTTY.H
+**********************************************************
+* MODIFICATIONS
+* 2020-06-05 - LHAYNIE - INITIAL VERSION
+**********************************************************
+*/
+
+#ifndef RTTY_H
+#define RTTY_H
 
 #include "Arduino.h"
 
@@ -19,4 +33,4 @@ class RTTY5
 
 extern RTTY5 RTTY;
 
-#endif // RTTY_h
+#endif

@@ -1,3 +1,17 @@
+/*
+**********************************************************
+* CATEGORY	HARDWARE
+* GROUP		TELEMETRY SYSTEM
+* AUTHOR	LANCE HAYNIE <LANCE@HAYNIEMAIL.COM>
+* DATE		2020-06-05
+* PURPOSE	RTTY BAUDOT
+* FILE		BAUDOT.H
+**********************************************************
+* MODIFICATIONS
+* 2020-06-05 - LHAYNIE - INITIAL VERSION
+**********************************************************
+*/
+
 #ifndef BAUDOT_H
 #define BAUDOT_H
 

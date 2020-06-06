@@ -1,28 +1,34 @@
 /*
- * telemetryRx.h
- *
- *  Created on: Jun 6, 2020
- *      Author: lance
- */
+**********************************************************
+* CATEGORY	HARDWARE
+* GROUP		TELEMETRY SYSTEM
+* AUTHOR	LANCE HAYNIE <LANCE@HAYNIEMAIL.COM>
+* DATE		2020-06-05
+* PURPOSE	TELEMETRY RECEIVER FUNCTIONS
+* FILE		TELEMETRYRX.H
+**********************************************************
+* MODIFICATIONS
+* 2020-06-05 - LHAYNIE - INITIAL VERSION
+**********************************************************
+*/
 
-#ifndef TELEMETRYRX_H_
-#define TELEMETRYRX_H_
+
+#ifndef TELEMETRYRX_H
+#define TELEMETRYRX_H
 
 class telemetryRx {
 	public:
-		void update();
-
-	private:
-		String recieve();
 		void parse();
-		void display();
 		void header();
 		void position();
 		void altitude();
 		void speed();
 		void acceleration();
+		void recieve();
+
+	private:
 };
 
 extern telemetryRx telemetryRx;
 
-#endif /* TELEMETRYRX_H_ */
+#endif

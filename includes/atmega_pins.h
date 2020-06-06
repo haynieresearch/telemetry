@@ -10,6 +10,7 @@
 * MODIFICATIONS
 * 2015-12-05 - LHAYNIE - Initial Version
 **********************************************************
+
 ATMEGA Non I/O pin definitions
 ATM01 = reset
 ATM07 = VCC
@@ -44,6 +45,10 @@ ATM26 = A3
 ATM27 = A4
 ATM28 = A5
 */
+
+#ifndef ATMEGA_PINS_H
+#define ATMEGA_PINS_H
+
 #define ATMEGA_PIN_VERSION "0.0.1"
 
 //**********************************************************
@@ -73,3 +78,5 @@ ATM28 = A5
 #define ATM26 A3
 #define ATM27 A4
 #define ATM28 A5
+
+#endif

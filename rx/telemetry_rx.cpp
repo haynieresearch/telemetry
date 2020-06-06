@@ -20,6 +20,14 @@
 #include "../includes/lcdDisplay.h"
 #include "../includes/telemetryRx.h"
 
+unsigned long previousTime = 0;
+const long interval = 0;
+
+bool s1 = 0;
+bool s2 = 0;
+bool s3 = 0;
+bool s4 = 0;
+
 //**********************************************************
 // MAIN PROGRAM
 //**********************************************************
@@ -30,9 +38,41 @@ void setup() {
 	lcdDisplay.init();
 	lcdDisplay.splash();
 	delay(5000);
+	lcdDisplay.clear();
 }
 
 //program loop
 void loop() {
-	telemetryRx.update();
+	unsigned long currentTime = millis();
+
+	if ((currentTime - previousTime >= 5000) && s1 == 0) {
+		telemetryRx.recieve();
+		telemetryRx.parse();
+		telemetryRx.header();
+		telemetryRx.position();
+		s1 = 1;
+	}
+
+	if ((currentTime - previousTime >= 10000) && s2 == 0) {
+		telemetryRx.altitude();
+		s2 = 1;
+	}
+
+	if ((currentTime - previousTime >= 15000) && s3 == 0) {
+		telemetryRx.speed();
+		s3 = 1;
+	}
+
+	if ((currentTime - previousTime >= 20000) && s4 == 0) {
+		telemetryRx.acceleration();
+		s4 = 1;
+	}
+
+	if ((currentTime - previousTime >= 20000)) {
+		s1 = 0;
+		s2 = 0;
+		s3 = 0;
+		s4 = 0;
+		previousTime = currentTime;
+	}
 }

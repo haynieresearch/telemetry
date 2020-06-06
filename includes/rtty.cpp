@@ -1,3 +1,17 @@
+/*
+**********************************************************
+* CATEGORY	HARDWARE
+* GROUP		TELEMETRY SYSTEM
+* AUTHOR	LANCE HAYNIE <LANCE@HAYNIEMAIL.COM>
+* DATE		2020-06-05
+* PURPOSE	RTTY FUNCTIONS
+* FILE		RTTY.CPP
+**********************************************************
+* MODIFICATIONS
+* 2020-06-05 - LHAYNIE - INITIAL VERSION
+**********************************************************
+*/
+
 #include "rtty.h"
 #include "baudot.h"
 
