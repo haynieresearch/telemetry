@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include "telemetryRx.h"
+#include "lcdDisplay.h"
 
 const int dataPoints = 12;
 String telemetryData[dataPoints];
@@ -54,89 +55,89 @@ void telemetryRx::parse() {
 }
 
 void telemetryRx::header() {
-	lcd.clear();
+	lcdDisplay.clear();
 
-	lcd.setCursor(0, 0);
-	lcd.print("Station ID:");
+	lcdDisplay.setCursor(0, 0);
+	lcdDisplay.print("Station ID:");
 
-	lcd.setCursor(12, 0);
-	lcd.print(rxStationID);
+	lcdDisplay.setCursor(12, 0);
+	lcdDisplay.print(rxStationID);
 
-	lcd.setCursor(0, 1);
-	lcd.print("T:");
+	lcdDisplay.setCursor(0, 1);
+	lcdDisplay.print("T:");
 
-	lcd.setCursor(2, 1);
-	lcd.print(rxCurrentTime);
+	lcdDisplay.setCursor(2, 1);
+	lcdDisplay.print(rxCurrentTime);
 
-	lcd.setCursor(12, 1);
-	lcd.print("Obs:");
+	lcdDisplay.setCursor(12, 1);
+	lcdDisplay.print("Obs:");
 
-	lcd.setCursor(16, 1);
-	lcd.print(rxObsNumber);
+	lcdDisplay.setCursor(16, 1);
+	lcdDisplay.print(rxObsNumber);
 }
 
 void telemetryRx::position() {
 	header();
 
-	lcd.setCursor(0, 2);
-	lcd.print("Lat.:");
+	lcdDisplay.setCursor(0, 2);
+	lcdDisplay.print("Lat.:");
 
-	lcd.setCursor(6, 2);
-	lcd.print(rxLatitude);
+	lcdDisplay.setCursor(6, 2);
+	lcdDisplay.print(rxLatitude);
 
-	lcd.setCursor(0, 3);
-	lcd.print("Long:");
+	lcdDisplay.setCursor(0, 3);
+	lcdDisplay.print("Long:");
 
-	lcd.setCursor(6, 3);
-	lcd.print(rxLongitude);
+	lcdDisplay.setCursor(6, 3);
+	lcdDisplay.print(rxLongitude);
 }
 
 void telemetryRx::altitude() {
 	header();
 
-	lcd.setCursor(0, 2);
-	lcd.print("Altitude....:");
+	lcdDisplay.setCursor(0, 2);
+	lcdDisplay.print("Altitude....:");
 
-	lcd.setCursor(14, 2);
-	lcd.print(rxAltitude);
+	lcdDisplay.setCursor(14, 2);
+	lcdDisplay.print(rxAltitude);
 
-	lcd.setCursor(0, 3);
-	lcd.print("Max Altitude:");
+	lcdDisplay.setCursor(0, 3);
+	lcdDisplay.print("Max Altitude:");
 
-	lcd.setCursor(14, 3);
-	lcd.print(rxMaxAltitude);
+	lcdDisplay.setCursor(14, 3);
+	lcdDisplay.print(rxMaxAltitude);
 }
 
 void telemetryRx::speed() {
 	header();
 
-	lcd.setCursor(0, 2);
-	lcd.print("Speed....:");
+	lcdDisplay.setCursor(0, 2);
+	lcdDisplay.print("Speed....:");
 
-	lcd.setCursor(11, 2);
-	lcd.print(rxSpeed);
+	lcdDisplay.setCursor(11, 2);
+	lcdDisplay.print(rxSpeed);
 
-	lcd.setCursor(0, 3);
-	lcd.print("Max Speed:");
+	lcdDisplay.setCursor(0, 3);
+	lcdDisplay.print("Max Speed:");
 
-	lcd.setCursor(11, 3);
-	lcd.print(rxMaxSpeed);
+	lcdDisplay.setCursor(11, 3);
+	lcdDisplay.print(rxMaxSpeed);
 }
 
 void telemetryRx::acceleration() {
 	header();
 
-	lcd.setCursor(0, 2);
-	lcd.print("Accel....:");
+	lcdDisplay.setCursor(0, 2);
+	lcdDisplay.print("Accel....:");
 
-	lcd.setCursor(11, 2);
-	lcd.print(rxAcceleration);
+	lcdDisplay.setCursor(11, 2);
+	lcdDisplay.print(rxAcceleration);
 
-	lcd.setCursor(0, 3);
-	lcd.print("Max Accel:");
+	lcdDisplay.setCursor(0, 3);
+	lcdDisplay.print("Max Accel:");
 
-	lcd.setCursor(11, 3);
-	lcd.print(rxMaxAcceleration);
+	lcdDisplay.setCursor(11, 3);
+	lcdDisplay.print(rxMaxAcceleration);
 }
 
 void telemetryRx::display() {

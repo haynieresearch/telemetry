@@ -16,9 +16,9 @@
 // GLOBAL VARIABLES/INCLUDES/MISC
 //**********************************************************
 #include "Arduino.h"
-#include "serialComm.h"
-#include "lcdDisplay.h"
-#include "telemetryRx.h"
+#include "../includes/serialComm.h"
+#include "../includes/lcdDisplay.h"
+#include "../includes/telemetryRx.h"
 
 //**********************************************************
 // MAIN PROGRAM
