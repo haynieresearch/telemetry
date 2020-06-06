@@ -69,6 +69,7 @@ void telemetryRx::parse() {
 		rxAcceleration    = telemetryData[10].toInt();
 		rxMaxAcceleration = telemetryData[11].toInt();
 
+		telemetryData[dataPoints] = (char)0;
 		rxData = "";
 }
 
