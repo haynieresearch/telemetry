@@ -15,8 +15,10 @@
 //**********************************************************
 // GLOBAL VARIABLES/INCLUDES/MISC
 //**********************************************************
-#include "config.h"
-#include "functions.h"
+#include "Arduino.h"
+#include "serialComm.h"
+#include "lcdDisplay.h"
+#include "telemetryRx.h"
 
 //**********************************************************
 // MAIN PROGRAM
@@ -24,17 +26,13 @@
 
 //program setup
 void setup() {
-	delay(500);
-	initSerial();
-	lcd.begin(20, 4);
-
-	splash();
+	serialComm.init();
+	lcdDisplay.init();
+	lcdDisplay.splash();
 	delay(5000);
 }
 
 //program loop
 void loop() {
-	recieveTelemetry();
-	parseTelemetry();
-	telemetryDataDisplay();
+	telemetryRx.update();
 }

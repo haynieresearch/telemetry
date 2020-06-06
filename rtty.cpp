@@ -1,5 +1,4 @@
 #include "rtty.h"
-
 #include "baudot.h"
 
 #define BAUD_RATE 10 // 100 baud

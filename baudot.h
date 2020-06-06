@@ -1,5 +1,5 @@
-#ifndef BAUDOT_h
-#define BAUDOT_h
+#ifndef BAUDOT_H
+#define BAUDOT_H
 
 #include "Arduino.h"
 
