@@ -33,7 +33,10 @@ char	rxMaxAcceleration[8];
 
 void telemetryRx::recieve() {
 	char rxData[100] = "HRDUAV,1,123519UTC,220318,37.137871,-113.649020,2567,3125,315,297,67,93";
-	serialComm.print(rxData);
+
+	Serial.print("<RXDATA:");
+	Serial.print(rxData);
+	Serial.println(">");
 
 	strcpy(rxStationID, strtok(rxData , ","));
 	strcpy(rxObsNumber, strtok(NULL , ","));
@@ -47,6 +50,18 @@ void telemetryRx::recieve() {
 	strcpy(rxMaxSpeed, strtok(NULL , ","));
 	strcpy(rxAcceleration, strtok(NULL , ","));
 	strcpy(rxMaxAcceleration, strtok(NULL , ","));
+
+	Serial.print("<STATIONID:");
+	Serial.print(rxStationID);
+	Serial.println(">");
+
+	Serial.print("<CTIME:");
+	Serial.print(rxCurrentTime);
+	Serial.println(">");
+
+	Serial.print("<OBS:");
+	Serial.print(rxObsNumber);
+	Serial.println(">");
 }
 
 void telemetryRx::header() {
@@ -67,6 +82,38 @@ void telemetryRx::header() {
 
 	lcdDisplay.setCursor(16, 1);
 	lcdDisplay.print(rxObsNumber);
+
+	Serial.print("<LAT:");
+	Serial.print(rxLatitude);
+	Serial.println(">");
+
+	Serial.print("<LONG:");
+	Serial.print(rxLongitude);
+	Serial.println(">");
+
+	Serial.print("<ALT:");
+	Serial.print(rxAltitude);
+	Serial.println(">");
+
+	Serial.print("<MAXALT:");
+	Serial.print(rxMaxAltitude);
+	Serial.println(">");
+
+	Serial.print("<SPEED:");
+	Serial.print(rxSpeed);
+	Serial.println(">");
+
+	Serial.print("<MAXSPEED:");
+	Serial.print(rxMaxSpeed);
+	Serial.println(">");
+
+	Serial.print("<ACCEL:");
+	Serial.print(rxAcceleration);
+	Serial.println(">");
+
+	Serial.print("<MAXACCEL:");
+	Serial.print(rxMaxAcceleration);
+	Serial.println(">");
 }
 
 void telemetryRx::position() {

@@ -26,18 +26,3 @@ void serialComm::init() {
 	Serial.println("Initializing " + pgmname + " Console");
 	Serial.println("Version: " + pgmver + "\n");
 }
-
-String serialComm::print(String s) {
-	Serial.println(s);
-	return "";
-}
-
-int serialComm::print(int i) {
-	Serial.println(i);
-	return 0;
-}
-
-char serialComm::print(char c) {
-	Serial.println(c);
-	return 0;
-}

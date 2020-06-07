@@ -18,9 +18,6 @@
 class serialComm {
 	public:
 		void init();
-		String print(String s);
-		int print(int i);
-		char print(char c);
 };
 
 extern serialComm serialComm;
