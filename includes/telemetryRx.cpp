@@ -62,26 +62,6 @@ void telemetryRx::recieve() {
 	Serial.print("<OBS:");
 	Serial.print(rxObsNumber);
 	Serial.println(">");
-}
-
-void telemetryRx::header() {
-	lcdDisplay.setCursor(0, 0);
-	lcdDisplay.print("Station ID:");
-
-	lcdDisplay.setCursor(12, 0);
-	lcdDisplay.print(rxStationID);
-
-	lcdDisplay.setCursor(0, 1);
-	lcdDisplay.print("T:");
-
-	lcdDisplay.setCursor(2, 1);
-	lcdDisplay.print(rxCurrentTime);
-
-	lcdDisplay.setCursor(12, 1);
-	lcdDisplay.print("Obs:");
-
-	lcdDisplay.setCursor(16, 1);
-	lcdDisplay.print(rxObsNumber);
 
 	Serial.print("<LAT:");
 	Serial.print(rxLatitude);
@@ -114,6 +94,26 @@ void telemetryRx::header() {
 	Serial.print("<MAXACCEL:");
 	Serial.print(rxMaxAcceleration);
 	Serial.println(">");
+}
+
+void telemetryRx::header() {
+	lcdDisplay.setCursor(0, 0);
+	lcdDisplay.print("Station ID:");
+
+	lcdDisplay.setCursor(12, 0);
+	lcdDisplay.print(rxStationID);
+
+	lcdDisplay.setCursor(0, 1);
+	lcdDisplay.print("T:");
+
+	lcdDisplay.setCursor(2, 1);
+	lcdDisplay.print(rxCurrentTime);
+
+	lcdDisplay.setCursor(12, 1);
+	lcdDisplay.print("Obs:");
+
+	lcdDisplay.setCursor(16, 1);
+	lcdDisplay.print(rxObsNumber);
 }
 
 void telemetryRx::position() {
