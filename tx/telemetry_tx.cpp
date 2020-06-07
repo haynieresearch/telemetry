@@ -34,7 +34,7 @@ void setup() {
 
 //program loop
 void loop() {
-	telemetryTx.format();
+	telemetryTx.tx(telemetryTx.format());
 	delay(5000);
     Serial.print("<FREEMEM:");
     Serial.print(freeMemory());

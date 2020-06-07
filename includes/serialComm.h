@@ -21,5 +21,4 @@ class serialComm {
 };
 
 extern serialComm serialComm;
-
 #endif

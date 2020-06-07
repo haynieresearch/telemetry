@@ -4,8 +4,8 @@
 * GROUP		TELEMETRY SYSTEM
 * AUTHOR	LANCE HAYNIE <LANCE@HAYNIEMAIL.COM>
 * DATE		2020-06-05
-* PURPOSE	RTTY FUNCTIONS
-* FILE		RTTY.CPP
+* PURPOSE	rtty FUNCTIONS
+* FILE		rtty.CPP
 **********************************************************
 * MODIFICATIONS
 * 2020-06-05 - LHAYNIE - INITIAL VERSION
@@ -19,24 +19,21 @@
 #define MARK 1200
 #define SPACE MARK-850 // 850hz shift
 
-RTTY5::RTTY5()
-{
+rtty5::rtty5() {
 }
 
-void RTTY5::attach(byte pin)
-{
-    rtty_pin = pin;
-    pinMode(rtty_pin, OUTPUT);
-    tone(rtty_pin, MARK);
+void rtty5::attach(byte pin) {
+	rtty_pin = pin;
+	pinMode(rtty_pin, OUTPUT);
+	tone(rtty_pin, MARK);
 }
 
-
-void RTTY5::tx(char* string)
+void rtty5::tx(char* string)
 {
     char c = *string++;
     byte index = 0, pos = 0;
     byte shift = 0;
-    
+
     while (c != '\0')
     {
         char* index = strchr(BAUDOT_FIGS, c);
@@ -62,10 +59,10 @@ void RTTY5::tx(char* string)
 }
 
 
-void RTTY5::rtty_txbyte (byte c)
+void rtty5::rtty_txbyte (byte c)
 {
-    
-    
+
+
     rtty_txbit (0); // Start bit
     // Send bits for for char MSB first
     for (byte i = 5; i > 0; --i)
@@ -79,7 +76,7 @@ void RTTY5::rtty_txbyte (byte c)
     rtty_txbit (1);
 }
 
-void RTTY5::rtty_txbit (bool bit)
+void rtty5::rtty_txbit (bool bit)
 {
     if (bit)
     {
@@ -91,9 +88,9 @@ void RTTY5::rtty_txbit (bool bit)
         // SPACE
         tone(rtty_pin, SPACE);
     }
-    
+
     delay(BAUD_RATE);
 }
 
 // Set the default object
-RTTY5 RTTY = RTTY5();
+rtty5 rtty = rtty5();

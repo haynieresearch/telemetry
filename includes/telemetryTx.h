@@ -20,6 +20,7 @@ class telemetryTx {
 	public:
 		void update();
 		char* format();
+		void tx(char* msg);
 
 	private:
 };

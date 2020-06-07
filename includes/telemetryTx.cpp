@@ -16,6 +16,7 @@
 #include "serialComm.h"
 #include "telemetryTx.h"
 #include "checkSum.h"
+#include "rtty.h"
 
 char 	txStationID[10];
 int		txObsNumber = 0;
@@ -124,4 +125,9 @@ char* telemetryTx::format() {
 	Serial.println(">\n");
 
 	return txOutData;
+}
+
+void telemetryTx::tx(char* msg) {
+	rtty.attach(12);
+	rtty.tx(msg);
 }
