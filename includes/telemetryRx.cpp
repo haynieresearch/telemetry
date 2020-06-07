@@ -17,60 +17,35 @@
 #include "telemetryRx.h"
 #include "lcdDisplay.h"
 
-const int dataPoints = 12;
-String telemetryData[dataPoints];
-int counter = 0;
-int lastIndex = 0;
-
-String	rxStationID;
-int		rxObsNumber;
-String	rxCurrentTime;
-String	rxCurrentDate;
-String	rxLatitude;
-String	rxLongitude;
-int		rxAltitude;
-int		rxMaxAltitude;
-int		rxSpeed;
-int		rxMaxSpeed;
-int		rxAcceleration;
-int		rxMaxAcceleration;
-String 	rxData;
+char	rxStationID[10];
+char	rxObsNumber[4];
+char	rxCurrentTime[10];
+char	rxCurrentDate[10];
+char	rxLatitude[15];
+char	rxLongitude[15];
+char	rxAltitude[8];
+char	rxMaxAltitude[8];
+char	rxSpeed[8];
+char	rxMaxSpeed[8];
+char	rxAcceleration[8];
+char	rxMaxAcceleration[8];
 
 void telemetryRx::recieve() {
-	rxData = "HRDUAV,1,123519UTC,220318,37.137871,-113.649020,2567.25,3125.78,315.92,297.71,67.24,93.45";
-}
-
-void telemetryRx::parse() {
+	char rxData[100] = "HRDUAV,1,123519UTC,220318,37.137871,-113.649020,2567,3125,315,297,67,93";
 	serialComm.print(rxData);
 
-	unsigned int i;
-	for (i = 0; i < rxData.length(); i++) {
-		if (rxData.substring(i, i+1) == ",") {
-			telemetryData[counter] = rxData.substring(lastIndex, i);
-			lastIndex = i + 1;
-			counter++;
-		}
-
-		if (i == rxData.length() - 1) {
-			telemetryData[counter] = rxData.substring(lastIndex, i);
-		}
-	}
-
-		rxStationID       = telemetryData[0];
-		rxObsNumber       = telemetryData[1].toInt();
-		rxCurrentTime     = telemetryData[2];
-		rxCurrentDate     = telemetryData[3];
-		rxLatitude        = telemetryData[4];
-		rxLongitude       = telemetryData[5];
-		rxAltitude        = telemetryData[6].toInt();
-		rxMaxAltitude     = telemetryData[7].toInt();
-		rxSpeed           = telemetryData[8].toInt();
-		rxMaxSpeed        = telemetryData[9].toInt();
-		rxAcceleration    = telemetryData[10].toInt();
-		rxMaxAcceleration = telemetryData[11].toInt();
-
-		telemetryData[dataPoints] = (char)0;
-		rxData = "";
+	strcpy(rxStationID, strtok(rxData , ","));
+	strcpy(rxObsNumber, strtok(NULL , ","));
+	strcpy(rxCurrentTime, strtok(NULL , ","));
+	strcpy(rxCurrentDate, strtok(NULL , ","));
+	strcpy(rxLatitude, strtok(NULL , ","));
+	strcpy(rxLongitude, strtok(NULL , ","));
+	strcpy(rxAltitude, strtok(NULL , ","));
+	strcpy(rxMaxAltitude, strtok(NULL , ","));
+	strcpy(rxSpeed, strtok(NULL , ","));
+	strcpy(rxMaxSpeed, strtok(NULL , ","));
+	strcpy(rxAcceleration, strtok(NULL , ","));
+	strcpy(rxMaxAcceleration, strtok(NULL , ","));
 }
 
 void telemetryRx::header() {

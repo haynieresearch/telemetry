@@ -82,6 +82,11 @@ char lcdDisplay::print(char c) {
 	return 0;
 }
 
+float lcdDisplay::print(float f) {
+	lcd.print(f);
+	return 0;
+}
+
 void lcdDisplay::squared() {
 	lcd.write(byte(0));
 }

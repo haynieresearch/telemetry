@@ -53,7 +53,6 @@ void loop() {
 	if (((currentTime - previousTime) >= 5000) && s1 == 0) {
 		latestCommand = millis();
 		telemetryRx.recieve();
-		telemetryRx.parse();
 		telemetryRx.header();
 		telemetryRx.position();
 		s1 = 1;

@@ -28,6 +28,7 @@ class lcdDisplay {
 		String print(String s);
 		int print(int i);
 		char print(char c);
+		float print(float f);
 		void squared();
 };
 
