@@ -19,6 +19,7 @@
 #include "../includes/memory.h"
 #include "../includes/serialComm.h"
 #include "../includes/telemetryTx.h"
+#include "../includes/rtty.h"
 
 //**********************************************************
 // MAIN PROGRAM
