@@ -93,7 +93,7 @@ void telemetryRx::recieve() {
 
 	Serial.print("<MAXACCEL:");
 	Serial.print(rxMaxAcceleration);
-	Serial.println(">");
+	Serial.println(">\n");
 }
 
 void telemetryRx::header() {

@@ -37,8 +37,9 @@ bool s4 = 0;
 //program setup
 void setup() {
 	serialComm.init();
-    //Serial.print("Free Memory = ");
-    //Serial.println(freeMemory());
+    Serial.print("<FREEMEM:");
+    Serial.print(freeMemory());
+    Serial.println(">\n");
 	lcdDisplay.init();
 	lcdDisplay.splash();
 	delay(5000);
@@ -82,8 +83,9 @@ void loop() {
 		s3 = 0;
 		s4 = 0;
 		previousTime = currentTime;
-	    //Serial.print("Free Memory = ");
-	    //Serial.println(freeMemory());
+	    Serial.print("<FREEMEM:");
+	    Serial.print(freeMemory());
+	    Serial.println(">\n");
 	}
 
 	if (currentTime - latestCommand >= 30000) {
@@ -92,7 +94,8 @@ void loop() {
 		s3 = 0;
 		s4 = 0;
 		previousTime = currentTime;
-	    //Serial.print("Free Memory = ");
-	    //Serial.println(freeMemory());
+	    Serial.print("<FREEMEM:");
+	    Serial.print(freeMemory());
+	    Serial.println(">\n");
 	}
 }
