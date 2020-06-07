@@ -16,6 +16,7 @@
 #include "serialComm.h"
 #include "telemetryRx.h"
 #include "lcdDisplay.h"
+#include "checkSum.h"
 
 char	rxStationID[10];
 char	rxObsNumber[4];
@@ -33,6 +34,10 @@ char	rxMaxAcceleration[8];
 void telemetryRx::recieve() {
 	char rxData[100] = "HRDUAV,1,123519UTC,220318,37.137871,-113.649020,2567,3125,315,297,67,93";
 	serialComm.print(rxData);
+
+	char test[20];
+
+	strcpy(test, checkSum.calc(rxData));
 
 	strcpy(rxStationID, strtok(rxData , ","));
 	strcpy(rxObsNumber, strtok(NULL , ","));
