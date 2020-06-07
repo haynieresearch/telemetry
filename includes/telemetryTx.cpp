@@ -32,7 +32,7 @@ char	txAcceleration[8];
 char	txMaxAcceleration[8];
 char	txOutData[100];
 
-void telemetryTx::update() {
+int telemetryTx::update() {
 	strcpy(txStationID, "HRDUAV");
 	txObsNumber = txObsNumber + 1;
 	strcpy(txCurrentTime, "123519UTC");
@@ -45,6 +45,8 @@ void telemetryTx::update() {
 	strcpy(txMaxSpeed, "297");
 	strcpy(txAcceleration, "67");
 	strcpy(txMaxAcceleration, "93");
+
+	return 0;
 }
 
 char* telemetryTx::format() {
@@ -79,10 +81,6 @@ char* telemetryTx::format() {
 	strcat (txData, txMaxAcceleration);
 
 	strcpy (txOutData, txData);
-
-	Serial.print("<TXDATA:");
-	Serial.print(txOutData);
-	Serial.println(">");
 
 	Serial.print("<CTIME:");
 	Serial.print(txCurrentTime);
@@ -127,7 +125,13 @@ char* telemetryTx::format() {
 	return txOutData;
 }
 
-void telemetryTx::tx(char* msg) {
+int telemetryTx::tx(char* msg) {
+	Serial.print("<TXDATA:");
+	Serial.print(msg);
+	Serial.println(">");
+
 	rtty.attach(12);
 	rtty.tx(msg);
+
+	return 0;
 }

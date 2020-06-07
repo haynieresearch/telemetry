@@ -34,7 +34,25 @@ void setup() {
 
 //program loop
 void loop() {
-	telemetryTx.tx(telemetryTx.format());
+	int updateResult = telemetryTx.update();
+
+	if (updateResult == 0) {
+		Serial.println("<UPDATE:SUCCESS>\n");
+		int txResult = telemetryTx.tx(telemetryTx.format());
+
+		if (txResult == 0) {
+			Serial.println("<TXRESULT:SUCCESS>\n");
+		}
+
+		else {
+			Serial.println("<TXRESULT:FAILURE>\n");
+		}
+	}
+
+	else {
+		Serial.println("<UPDATE:FAILURE>\n");
+	}
+
 	delay(5000);
     Serial.print("<FREEMEM:");
     Serial.print(freeMemory());

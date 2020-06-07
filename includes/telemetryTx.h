@@ -18,9 +18,9 @@
 
 class telemetryTx {
 	public:
-		void update();
+		int update();
 		char* format();
-		void tx(char* msg);
+		int tx(char* msg);
 
 	private:
 };
