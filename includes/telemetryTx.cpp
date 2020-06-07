@@ -33,6 +33,7 @@ char	txMaxAcceleration[8];
 char	txOutData[100];
 
 int telemetryTx::update() {
+	//dummy data until I get the GPS & accelerometer
 	strcpy(txStationID, "HRDUAV");
 	txObsNumber = txObsNumber + 1;
 	strcpy(txCurrentTime, "123519UTC");
@@ -50,8 +51,6 @@ int telemetryTx::update() {
 }
 
 char* telemetryTx::format() {
-	update();
-
 	String buf = "";
 	char obs[20];
 	buf += itoa(txObsNumber, obs, 10);
