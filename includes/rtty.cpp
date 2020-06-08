@@ -15,7 +15,6 @@ https://github.com/farroid/arduino-rtty-transmitter
 */
 
 #include "rtty.h"
-#include "baudot.h"
 
 #define BAUD_RATE 10 // 100 baud
 #define MARK 1200 //1200hz

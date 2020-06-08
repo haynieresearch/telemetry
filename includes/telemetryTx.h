@@ -12,9 +12,18 @@
 **********************************************************
 */
 
-
 #ifndef TELEMETRYTX_H
 #define TELEMETRYTX_H
+
+#include "Arduino.h"
+#include "SoftwareSerial.h"
+#include "serialComm.h"
+#include "checkSum.h"
+#include "rtty.h"
+#include "TinyGPS++.h"
+#include "charTrim.h"
+#include "../includes/memory.h"
+#include <stdlib.h>
 
 class telemetryTx {
 	public:

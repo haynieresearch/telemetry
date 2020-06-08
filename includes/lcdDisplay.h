@@ -15,7 +15,11 @@
 #ifndef LCDDISPLAY_H
 #define LCDDISPLAY_H
 
+#include "Arduino.h"
 #include "LiquidCrystal.h"
+#include <stdio.h>
+#include <string.h>
+#include <inttypes.h>
 
 class lcdDisplay {
 	public:

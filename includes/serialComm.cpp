@@ -12,7 +12,6 @@
 **********************************************************
 */
 
-#include "Arduino.h"
 #include "serialComm.h"
 
 extern const String pgmco    = "Haynie Research & Development, LLC";

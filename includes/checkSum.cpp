@@ -12,9 +12,6 @@
 **********************************************************
 */
 
-#include "Arduino.h"
-#include <stdlib.h>
-#include <util/crc16.h>
 #include "checkSum.h"
 
 uint16_t checkSum::calc(char* str) {

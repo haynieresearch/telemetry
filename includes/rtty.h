@@ -18,6 +18,7 @@ https://github.com/farroid/arduino-rtty-transmitter
 #define RTTY_H
 
 #include "Arduino.h"
+#include "baudot.h"
 
 class rtty5
 {

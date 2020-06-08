@@ -15,6 +15,10 @@
 #ifndef CHECKSUM_H
 #define CHECKSUM_H
 
+#include "Arduino.h"
+#include <stdlib.h>
+#include <util/crc16.h>
+
 class checkSum {
 	public:
 		uint16_t calc(char* str);

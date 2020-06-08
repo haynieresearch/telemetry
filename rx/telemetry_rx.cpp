@@ -15,10 +15,6 @@
 //**********************************************************
 // GLOBAL VARIABLES/INCLUDES/MISC
 //**********************************************************
-#include "Arduino.h"
-#include "../includes/memory.h"
-#include "../includes/serialComm.h"
-#include "../includes/lcdDisplay.h"
 #include "../includes/telemetryRx.h"
 
 unsigned long previousTime = 0;

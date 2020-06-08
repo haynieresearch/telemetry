@@ -12,15 +12,7 @@
 **********************************************************
 */
 
-#include "Arduino.h"
-#include "SoftwareSerial.h"
-#include "serialComm.h"
 #include "telemetryTx.h"
-#include "checkSum.h"
-#include "rtty.h"
-#include "TinyGPS++.h"
-#include "charTrim.h"
-#include <stdlib.h>
 
 static const int gpsRxPin = 4, gpsTxPin = 3;
 static const uint32_t gpsBaud = 9600;

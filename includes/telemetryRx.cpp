@@ -12,11 +12,7 @@
 **********************************************************
 */
 
-#include "Arduino.h"
-#include "serialComm.h"
 #include "telemetryRx.h"
-#include "lcdDisplay.h"
-#include "checkSum.h"
 
 char	rxStationID[10];
 char	rxObsNumber[4];

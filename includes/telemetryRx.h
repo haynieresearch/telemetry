@@ -12,9 +12,14 @@
 **********************************************************
 */
 
-
 #ifndef TELEMETRYRX_H
 #define TELEMETRYRX_H
+
+#include "Arduino.h"
+#include "serialComm.h"
+#include "lcdDisplay.h"
+#include "checkSum.h"
+#include "memory.h"
 
 class telemetryRx {
 	public:
@@ -30,5 +35,4 @@ class telemetryRx {
 };
 
 extern telemetryRx telemetryRx;
-
 #endif

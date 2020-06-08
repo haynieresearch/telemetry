@@ -15,17 +15,11 @@
 //**********************************************************
 // GLOBAL VARIABLES/INCLUDES/MISC
 //**********************************************************
-#include "Arduino.h"
-#include "../includes/memory.h"
-#include "../includes/serialComm.h"
 #include "../includes/telemetryTx.h"
-#include "../includes/rtty.h"
 
 //**********************************************************
 // MAIN PROGRAM
 //**********************************************************
-
-
 
 //program setup
 void setup() {
