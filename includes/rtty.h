@@ -10,6 +10,8 @@
 * MODIFICATIONS
 * 2020-06-05 - LHAYNIE - INITIAL VERSION
 **********************************************************
+Original RTTY code:
+https://github.com/farroid/arduino-rtty-transmitter
 */
 
 #ifndef RTTY_H
