@@ -21,10 +21,10 @@ class telemetryTx {
 		int update();
 		char* format();
 		int tx(char* msg);
+		void gpsInit();
 
 	private:
 };
 
 extern telemetryTx telemetryTx;
-
 #endif

@@ -25,9 +25,12 @@
 // MAIN PROGRAM
 //**********************************************************
 
+
+
 //program setup
 void setup() {
 	serialComm.init();
+	telemetryTx.gpsInit();
     Serial.print("<FREEMEM:");
     Serial.print(freeMemory());
     Serial.println(">\n");
