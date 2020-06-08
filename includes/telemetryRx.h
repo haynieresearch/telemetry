@@ -33,6 +33,7 @@ class telemetryRx {
 		void speed();
 		void acceleration();
 		void recieve();
+		void radioInit();
 
 	private:
 };

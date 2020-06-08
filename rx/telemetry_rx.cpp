@@ -33,6 +33,7 @@ bool s4 = 0;
 //program setup
 void setup() {
 	serialComm.init();
+	telemetryRx.radioInit();
     Serial.print("<FREEMEM:");
     Serial.print(freeMemory());
     Serial.println(">");

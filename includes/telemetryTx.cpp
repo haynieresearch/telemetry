@@ -14,6 +14,11 @@
 
 #include "telemetryTx.h"
 
+#define RFM95_CS 8
+#define RFM95_RST 4
+#define RFM95_INT 7
+#define RF95_FREQ 433.0
+
 static const int gpsRxPin = 4, gpsTxPin = 3;
 static const uint32_t gpsBaud = 9600;
 SoftwareSerial ss(gpsRxPin, gpsTxPin);
@@ -36,7 +41,27 @@ float   maxAltTracking = 0;
 float	maxSpeedTracking = 0;
 char 	strBuffer[15];
 
+void telemetryTx::radioInit() {
+	delay(500);
+	pinMode(RFM95_RST, OUTPUT);
+	digitalWrite(RFM95_RST, HIGH);
+	RH_RF95 rf95(RFM95_CS, RFM95_INT);
+
+	//while (!rf95.init()) {
+	//	Serial.println("<RADIOINIT:FAILED>");
+	//	while (1);
+	//} Serial.println("<RADIOINIT:SUCCESS>");
+
+	//if (!rf95.setFrequency(RF95_FREQ)) {
+	//	Serial.println("<RADIOFREQ:FAILED>");
+	//	while (1);
+	//} Serial.print("<RADIOFREQ:SUCCESS FREQ:"); Serial.print(RF95_FREQ); Serial.println(">");
+
+	//rf95.setTxPower(23, false);
+}
+
 void telemetryTx::gpsInit() {
+	delay(500);
 	ss.begin(gpsBaud);
 	const char *gpsStream =
 	  "$GPRMC,045103.000,A,3014.1984,N,09749.2872,W,0.67,161.46,030913,,,A*7C\r\n"
@@ -172,9 +197,13 @@ char* telemetryTx::format() {
 }
 
 int telemetryTx::tx(char* msg) {
+	RH_RF95 rf95(RFM95_CS, RFM95_INT);
+
 	Serial.print("<TXDATA:");
 	Serial.print(msg);
 	Serial.println(">");
+
+	//rf95.send((uint8_t *)msg, 20);
 
 	rtty.attach(12);
 	rtty.tx(msg);

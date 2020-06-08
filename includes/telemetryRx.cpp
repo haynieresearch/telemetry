@@ -19,8 +19,6 @@
 #define RFM95_INT 7
 #define RF95_FREQ 433.0
 
-RH_RF95 rf95(RFM95_CS, RFM95_INT);
-
 char	rxStationID[10];
 char	rxObsNumber[4];
 char	rxCurrentTime[10];
@@ -34,7 +32,51 @@ char	rxMaxSpeed[8];
 char	rxAcceleration[8];
 char	rxMaxAcceleration[8];
 
+void telemetryRx::radioInit() {
+	delay(500);
+	pinMode(RFM95_RST, OUTPUT);
+	digitalWrite(RFM95_RST, HIGH);
+	RH_RF95 rf95(RFM95_CS, RFM95_INT);
+
+	//while (!rf95.init()) {
+	//	Serial.println("<RADIOINIT:FAILED>");
+	//	while (1);
+	//} Serial.println("<RADIOINIT:SUCCESS>");
+
+	//if (!rf95.setFrequency(RF95_FREQ)) {
+	//	Serial.println("<RADIOFREQ:FAILED>");
+	//	while (1);
+	//} Serial.print("<RADIOFREQ:SUCCESS FREQ:"); Serial.print(RF95_FREQ); Serial.println(">");
+
+	//rf95.setTxPower(23, false);
+}
+
 void telemetryRx::recieve() {
+	RH_RF95 rf95(RFM95_CS, RFM95_INT);
+
+	if (rf95.available()) {
+		uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
+		uint8_t len = sizeof(buf);
+
+		if (rf95.recv(buf, &len)) {
+			RH_RF95::printBuffer("Received: ", buf, len);
+			Serial.print("Got: ");
+			Serial.println((char*)buf);
+			Serial.print("RSSI: ");
+			Serial.println(rf95.lastRssi(), DEC);
+
+			// Send a reply
+			uint8_t data[] = "And hello back to you";
+			rf95.send(data, sizeof(data));
+			rf95.waitPacketSent();
+			Serial.println("Sent a reply");
+		}
+
+		else {
+			Serial.println("Receive failed");
+		}
+	}
+
 	char rxData[100] = "HRDUAV,1,123519UTC,220318,37.137871,-113.649020,2567,3125,315,297,67,93";
 
 	Serial.print("<RXDATA:");

@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <SPI.h>
 #include "battery.h"
+#include "RH_RF95.h"
 
 class telemetryTx {
 	public:
@@ -33,6 +34,7 @@ class telemetryTx {
 		char* format();
 		int tx(char* msg);
 		void gpsInit();
+		void radioInit();
 
 	private:
 };
