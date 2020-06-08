@@ -25,6 +25,7 @@
 void setup() {
 	serialComm.init();
 	telemetryTx.gpsInit();
+	telemetryTx.adxlInit();
 	telemetryTx.radioInit();
     Serial.print("<FREEMEM:");
     Serial.print(freeMemory());

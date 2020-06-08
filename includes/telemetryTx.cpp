@@ -42,7 +42,35 @@ char	txMaxAcceleration[8];
 char	txOutData[100];
 float   maxAltTracking = 0;
 float	maxSpeedTracking = 0;
+float	maxAccelTracking = 0;
 char 	strBuffer[15];
+
+void telemetryTx::adxlInit() {
+	delay(500);
+	ADXL345 adxl = ADXL345();
+
+	adxl.powerOn();
+	adxl.setRangeSetting(16);
+	adxl.setSpiBit(0);
+	adxl.setActivityXYZ(1, 0, 0);
+	adxl.setActivityThreshold(75);
+	adxl.setInactivityXYZ(1, 0, 0);
+	adxl.setInactivityThreshold(75);
+	adxl.setTimeInactivity(10);
+	adxl.setTapDetectionOnXYZ(0, 0, 1);
+	adxl.setTapThreshold(50);
+	adxl.setTapDuration(15);
+	adxl.setDoubleTapLatency(80);
+	adxl.setDoubleTapWindow(200);
+	adxl.setFreeFallThreshold(7);
+	adxl.setFreeFallDuration(30);
+
+	adxl.InactivityINT(0);
+	adxl.ActivityINT(0);
+	adxl.FreeFallINT(0);
+	adxl.doubleTapINT(0);
+	adxl.singleTapINT(0);
+}
 
 void telemetryTx::radioInit() {
 	delay(500);
@@ -81,6 +109,8 @@ void telemetryTx::gpsInit() {
 }
 
 int telemetryTx::update() {
+	ADXL345 adxl = ADXL345();
+
 	strcpy(txStationID, "HRDUAV");
 	txObsNumber = txObsNumber + 1;
 
@@ -121,8 +151,22 @@ int telemetryTx::update() {
 		strcpy(txMaxSpeed, gpsSpeed);
 	}
 
-	strcpy(txAcceleration, "67");
-	strcpy(txMaxAcceleration, "93");
+	int x,y,z;
+	adxl.readAccel(&x, &y, &z);
+
+	int maxAccel = x;
+	if (y > maxAccel) maxAccel = y;
+	if (z > maxAccel) maxAccel = z;
+
+	buf = "";
+	char accel[20];
+	buf += itoa(maxAccel/0.10197162129779, accel, 10);
+	strcpy(txAcceleration, accel);
+
+	if (maxAccel/0.10197162129779 > maxAccelTracking) {
+		maxAccelTracking = maxAccel/0.10197162129779;
+		strcpy(txMaxAcceleration, accel);
+	}
 
 	return 0;
 }

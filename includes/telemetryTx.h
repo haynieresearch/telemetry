@@ -28,6 +28,7 @@
 #include "battery.h"
 #include "RHReliableDatagram.h"
 #include "RH_RF95.h"
+#include "ADXL345.h"
 
 class telemetryTx {
 	public:
@@ -36,6 +37,7 @@ class telemetryTx {
 		int tx(char* msg);
 		void gpsInit();
 		void radioInit();
+		void adxlInit();
 
 	private:
 };
