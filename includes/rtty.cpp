@@ -18,15 +18,15 @@ https://github.com/farroid/arduino-rtty-transmitter
 #include "baudot.h"
 
 #define BAUD_RATE 10 // 100 baud
-#define MARK 1200
+#define MARK 1200 //1200hz
 #define SPACE MARK-850 // 850hz shift
 
-rtty5::rtty5() {}
+rtty5::rtty5() {} // @suppress("Class members should be properly initialized")
 
 void rtty5::attach(byte pin) {
 	rtty_pin = pin;
 	pinMode(rtty_pin, OUTPUT);
-	tone(rtty_pin, MARK);
+	tone(rtty_pin, MARK); // @suppress("Invalid arguments")
 }
 
 void rtty5::tx(char* string) {
@@ -77,10 +77,10 @@ void rtty5::rtty_txbyte (byte c) {
 
 void rtty5::rtty_txbit (bool bit) {
 	if (bit) {
-		tone(rtty_pin, MARK);
+		tone(rtty_pin, MARK); // @suppress("Invalid arguments")
 	}
 	else {
-		tone(rtty_pin, SPACE);
+		tone(rtty_pin, SPACE); // @suppress("Invalid arguments")
 	} delay(BAUD_RATE);
 }
 
