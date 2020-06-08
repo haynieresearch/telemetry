@@ -22,10 +22,10 @@
 #include "rtty.h"
 #include "TinyGPS++.h"
 #include "charTrim.h"
-#include "../includes/memory.h"
+#include "memory.h"
 #include <stdlib.h>
+#include <SPI.h>
 #include "battery.h"
-#include "RH_RF95.h"
 
 class telemetryTx {
 	public:

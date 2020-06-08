@@ -47,7 +47,7 @@ void telemetryTx::gpsInit() {
 	  "$GPGGA,045252.000,3014.4273,N,09749.0628,W,1,09,1.3,206.9,M,-22.5,M,,0000*6F\r\n";
 
 	  while (*gpsStream)
-	    if (gps.encode(*gpsStream++));
+	    if (gps.encode(*gpsStream++)); // @suppress("Suspicious semicolon")
 }
 
 int telemetryTx::update() {

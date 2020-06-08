@@ -16,6 +16,7 @@
 #define TELEMETRYRX_H
 
 #include "Arduino.h"
+#include <SPI.h>
 #include "serialComm.h"
 #include "lcdDisplay.h"
 #include "checkSum.h"

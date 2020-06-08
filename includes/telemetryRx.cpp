@@ -14,6 +14,13 @@
 
 #include "telemetryRx.h"
 
+#define RFM95_CS 8
+#define RFM95_RST 4
+#define RFM95_INT 7
+#define RF95_FREQ 433.0
+
+RH_RF95 rf95(RFM95_CS, RFM95_INT);
+
 char	rxStationID[10];
 char	rxObsNumber[4];
 char	rxCurrentTime[10];
