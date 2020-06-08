@@ -3,4 +3,4 @@ The Telemetry Reporting System ("TRS") is an in development system using [Arduin
 
 I am still in the prototyping phase and will update this document accordingly as required.
 
-P.S.: I will try to keep this repo error free when committing, but no promises. I am also working in Eclipse C++ and not the Arduino IDE so you may have to do some tweaking to get the includes to work properly. If you are using Eclipse, you will need to create separate projects for the RX and TX code which is pretty simple. Then you will need to create a folder link to the includes directory for each.
+P.S.: I will try to keep this repo error free when committing, but no promises. I am also working in [Eclipse](https://eclipse.baeyens.it/) and not the Arduino IDE so you may have to do some tweaking to get the includes to work properly. If you are using Eclipse, you will need to create separate projects for the RX and TX code which is pretty simple. Then you will need to create a folder link to the includes directory for each.
