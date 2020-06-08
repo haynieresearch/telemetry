@@ -24,6 +24,7 @@
 #include "charTrim.h"
 #include "../includes/memory.h"
 #include <stdlib.h>
+#include "battery.h"
 
 class telemetryTx {
 	public:

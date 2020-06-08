@@ -27,6 +27,9 @@ void setup() {
 	telemetryTx.gpsInit();
     Serial.print("<FREEMEM:");
     Serial.print(freeMemory());
+    Serial.println(">");
+    Serial.print("<BATTERY:");
+    Serial.print(battery.charge());
     Serial.println(">\n");
 }
 
@@ -54,5 +57,8 @@ void loop() {
 	delay(5000);
     Serial.print("<FREEMEM:");
     Serial.print(freeMemory());
+    Serial.println(">");
+    Serial.print("<BATTERY:");
+    Serial.print(battery.charge());
     Serial.println(">\n");
 }

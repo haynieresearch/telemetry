@@ -20,6 +20,7 @@
 #include "lcdDisplay.h"
 #include "checkSum.h"
 #include "memory.h"
+#include "battery.h"
 
 class telemetryRx {
 	public:

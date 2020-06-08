@@ -35,7 +35,11 @@ void setup() {
 	serialComm.init();
     Serial.print("<FREEMEM:");
     Serial.print(freeMemory());
+    Serial.println(">");
+    Serial.print("<BATTERY:");
+    Serial.print(battery.charge());
     Serial.println(">\n");
+
 	lcdDisplay.init();
 	lcdDisplay.splash();
 	delay(5000);
@@ -81,6 +85,9 @@ void loop() {
 		previousTime = currentTime;
 	    Serial.print("<FREEMEM:");
 	    Serial.print(freeMemory());
+	    Serial.println(">");
+	    Serial.print("<BATTERY:");
+	    Serial.print(battery.charge());
 	    Serial.println(">\n");
 	}
 
@@ -92,6 +99,9 @@ void loop() {
 		previousTime = currentTime;
 	    Serial.print("<FREEMEM:");
 	    Serial.print(freeMemory());
+	    Serial.println(">");
+	    Serial.print("<BATTERY:");
+	    Serial.print(battery.charge());
 	    Serial.println(">\n");
 	}
 }
