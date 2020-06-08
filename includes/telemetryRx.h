@@ -21,6 +21,7 @@
 #include "checkSum.h"
 #include "memory.h"
 #include "battery.h"
+#include "RH_RF95.h"
 
 class telemetryRx {
 	public:

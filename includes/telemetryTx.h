@@ -25,6 +25,7 @@
 #include "../includes/memory.h"
 #include <stdlib.h>
 #include "battery.h"
+#include "RH_RF95.h"
 
 class telemetryTx {
 	public:
