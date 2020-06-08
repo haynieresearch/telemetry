@@ -19,7 +19,7 @@
 
 class serialComm {
 	public:
-		void init();
+		void init(String pgm);
 };
 
 extern serialComm serialComm;

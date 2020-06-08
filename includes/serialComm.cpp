@@ -14,14 +14,13 @@
 
 #include "serialComm.h"
 
-extern const String pgmco    = "Haynie Research & Development, LLC";
-extern const String pgmname  = "Telemetry Reporting System";
-extern const String pgmver   = "0.0.1";
+const String pgmco    = "Haynie Research & Development, LLC";
+const String pgmver   = "0.0.1";
 
-void serialComm::init() {
-	delay(500);
+void serialComm::init(String pgm) {
 	Serial.begin(9600);
 	Serial.println(pgmco);
-	Serial.println("Initializing " + pgmname + " Console");
+	Serial.println("Initializing " + pgm + " Console");
 	Serial.println("Version: " + pgmver + "\n");
+	delay(1000);
 }

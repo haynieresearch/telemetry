@@ -22,15 +22,18 @@
 #define CLIENT_ADDRESS 9273297286
 #define SERVER_ADDRESS 8962778729
 
+#define DHTPIN 2
+#define DHTTYPE DHT22
+
 static const int gpsRxPin = 4, gpsTxPin = 3;
 static const uint32_t gpsBaud = 9600;
 SoftwareSerial ss(gpsRxPin, gpsTxPin);
 TinyGPSPlus gps;
 
-char 	txStationID[10];
+char 	txStationID[11];
 int		txObsNumber = 0;
-char	txCurrentTime[10];
-char	txCurrentDate[10];
+char	txCurrentTime[6];
+char	txCurrentDate[11];
 char	txLatitude[15];
 char	txLongitude[15];
 char	txAltitude[8];
@@ -39,14 +42,15 @@ char	txSpeed[8];
 char	txMaxSpeed[8];
 char	txAcceleration[8];
 char	txMaxAcceleration[8];
-char	txOutData[100];
+char	txTemp[4];
+char	txBattery[4];
+char	txData[200];
 float   maxAltTracking = 0;
 float	maxSpeedTracking = 0;
 float	maxAccelTracking = 0;
 char 	strBuffer[15];
 
 void telemetryTx::adxlInit() {
-	delay(500);
 	ADXL345 adxl = ADXL345();
 
 	adxl.powerOn();
@@ -70,11 +74,11 @@ void telemetryTx::adxlInit() {
 	adxl.FreeFallINT(0);
 	adxl.doubleTapINT(0);
 	adxl.singleTapINT(0);
+	delay(500);
 }
 
 void telemetryTx::radioInit() {
-	delay(500);
-
+	/*
 	RH_RF95 driver;
 	RHReliableDatagram manager(driver, SERVER_ADDRESS);
 
@@ -91,25 +95,23 @@ void telemetryTx::radioInit() {
 		driver.setFrequency(RF95_FREQ);
 		driver.setCADTimeout(250);
 	}
+	*/
+	delay(500);
 }
 
 void telemetryTx::gpsInit() {
 	delay(500);
 	ss.begin(gpsBaud);
-	const char *gpsStream =
-	  "$GPRMC,045103.000,A,3014.1984,N,09749.2872,W,0.67,161.46,030913,,,A*7C\r\n"
-	  "$GPGGA,045104.000,3014.1985,N,09749.2873,W,1,09,1.2,211.6,M,-22.5,M,,0000*62\r\n"
-	  "$GPRMC,045200.000,A,3014.3820,N,09748.9514,W,36.88,65.02,030913,,,A*77\r\n"
-	  "$GPGGA,045201.000,3014.3864,N,09748.9411,W,1,10,1.2,200.8,M,-22.5,M,,0000*6C\r\n"
-	  "$GPRMC,045251.000,A,3014.4275,N,09749.0626,W,0.51,217.94,030913,,,A*7D\r\n"
-	  "$GPGGA,045252.000,3014.4273,N,09749.0628,W,1,09,1.3,206.9,M,-22.5,M,,0000*6F\r\n";
+	const char *gpsStream = "$GPRMC,235316.000,A,4003.9040,N,10512.5792,W,0.09,144.75,141112,,*19\r\n";
 
-	  while (*gpsStream)
-	    if (gps.encode(*gpsStream++)); // @suppress("Suspicious semicolon")
+	while (*gpsStream)
+		    if (gps.encode(*gpsStream++)); // @suppress("Suspicious semicolon")
+	delay(500);
 }
 
 int telemetryTx::update() {
 	ADXL345 adxl = ADXL345();
+	DHT dht(DHTPIN, DHTTYPE);
 
 	strcpy(txStationID, "HRDUAV");
 	txObsNumber = txObsNumber + 1;
@@ -119,11 +121,24 @@ int telemetryTx::update() {
 	strcat (txCurrentTime, dtostrf(gps.time.minute(),2,0,strBuffer));
 	charTrim.trim(txCurrentTime);
 
-	strcpy (txCurrentDate, dtostrf(gps.date.year(),4,0,strBuffer));
+	char year[5];
+	strcpy (year, dtostrf(gps.date.year(),4,0,strBuffer));
+	charTrim.trim(year);
+
+	char month[3];
+	strcpy (month, dtostrf(gps.date.month(),2,0,strBuffer));
+	charTrim.trim(month);
+
+	char day[3];
+	strcpy (day, dtostrf(gps.date.day(),2,0,strBuffer));
+	charTrim.trim(day);
+
+	strcpy (txCurrentDate, year);
 	strcat (txCurrentDate, "/");
-	strcat (txCurrentDate, dtostrf(gps.date.month(),2,0,strBuffer));
+	strcat (txCurrentDate, month);
 	strcat (txCurrentDate, "/");
-	strcat (txCurrentDate, dtostrf(gps.date.day(),2,0,strBuffer));
+	strcat (txCurrentDate, day);
+	charTrim.trim(txCurrentDate);
 
 	strcpy(txLatitude, dtostrf(gps.location.lat(),11,6,strBuffer));
 	charTrim.trim(txLatitude);
@@ -168,6 +183,16 @@ int telemetryTx::update() {
 		strcpy(txMaxAcceleration, accel);
 	}
 
+	float t = dht.readTemperature();
+	buf = "";
+	char temp[20];
+	buf += itoa(t, temp, 10);
+	strcpy(txTemp, temp);
+	charTrim.trim(txTemp);
+
+	strcpy(txBattery, dtostrf(battery.charge(),3,0,strBuffer));
+	charTrim.trim(txBattery);
+
 	return 0;
 }
 
@@ -176,13 +201,13 @@ char* telemetryTx::format() {
 	char obs[20];
 	buf += itoa(txObsNumber, obs, 10);
 
-	char txData[100];
-
 	strcpy (txData, txStationID);
 	strcat (txData, ",");
 	strcat (txData, obs);
 	strcat (txData, ",");
 	strcat (txData, txCurrentTime);
+	strcat (txData, ",");
+	strcat (txData, txCurrentDate);
 	strcat (txData, ",");
 	strcat (txData, txLatitude);
 	strcat (txData, ",");
@@ -199,15 +224,25 @@ char* telemetryTx::format() {
 	strcat (txData, txAcceleration);
 	strcat (txData, ",");
 	strcat (txData, txMaxAcceleration);
+	strcat (txData, ",");
+	strcat (txData, txTemp);
+	strcat (txData, ",");
+	strcat (txData, txBattery);
 
-	strcpy (txOutData, txData);
+	Serial.print("<STATIONID:");
+	Serial.print(txStationID);
+	Serial.println(">");
+
+	Serial.print("<OBS:");
+	Serial.print(obs);
+	Serial.println(">");
 
 	Serial.print("<CTIME:");
 	Serial.print(txCurrentTime);
 	Serial.println(">");
 
-	Serial.print("<OBS:");
-	Serial.print(obs);
+	Serial.print("<CDATE:");
+	Serial.print(txCurrentDate);
 	Serial.println(">");
 
 	Serial.print("<LAT:");
@@ -240,19 +275,29 @@ char* telemetryTx::format() {
 
 	Serial.print("<MAXACCEL:");
 	Serial.print(txMaxAcceleration);
+	Serial.println(">");
+
+	Serial.print("<TEMP:");
+	Serial.print(txTemp);
+	Serial.println(">");
+
+	Serial.print("<BATTERY:");
+	Serial.print(txTemp);
 	Serial.println(">\n");
 
-	return txOutData;
+	return txData;
 }
 
 int telemetryTx::tx(char* msg) {
-	RH_RF95 driver;
-	RHReliableDatagram manager(driver, CLIENT_ADDRESS);
-	RH_RF95 rf95(RFM95_CS, RFM95_INT);
+	//RH_RF95 driver;
+	//RHReliableDatagram manager(driver, CLIENT_ADDRESS);
+	//RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
 	Serial.print("<TXDATA:");
 	Serial.print(msg);
 	Serial.println(">");
+
+	/*
 
 	Serial.println("Sending to rf95_reliable_datagram_server");
 
@@ -278,6 +323,8 @@ int telemetryTx::tx(char* msg) {
 
 	else
 		Serial.println("sendtoWait failed");
+
+	*/
 
 	rtty.attach(12);
 	rtty.tx(msg);

@@ -29,6 +29,7 @@
 #include "RHReliableDatagram.h"
 #include "RH_RF95.h"
 #include "ADXL345.h"
+#include "DHT.h"
 
 class telemetryTx {
 	public:

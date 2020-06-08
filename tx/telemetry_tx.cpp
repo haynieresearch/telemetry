@@ -23,16 +23,10 @@
 
 //program setup
 void setup() {
-	serialComm.init();
+	serialComm.init("Telemetry Transmitter");
 	telemetryTx.gpsInit();
 	telemetryTx.adxlInit();
 	telemetryTx.radioInit();
-    Serial.print("<FREEMEM:");
-    Serial.print(freeMemory());
-    Serial.println(">");
-    Serial.print("<BATTERY:");
-    Serial.print(battery.charge());
-    Serial.println(">\n");
 }
 
 //program loop
@@ -57,10 +51,4 @@ void loop() {
 	}
 
 	delay(5000);
-    Serial.print("<FREEMEM:");
-    Serial.print(freeMemory());
-    Serial.println(">");
-    Serial.print("<BATTERY:");
-    Serial.print(battery.charge());
-    Serial.println(">\n");
 }

@@ -22,10 +22,10 @@
 #define CLIENT_ADDRESS 9273297286
 #define SERVER_ADDRESS 8962778729
 
-char	rxStationID[10];
-char	rxObsNumber[4];
-char	rxCurrentTime[10];
-char	rxCurrentDate[10];
+char 	rxStationID[11];
+char	rxObsNumber[5];
+char	rxCurrentTime[6];
+char	rxCurrentDate[11];
 char	rxLatitude[15];
 char	rxLongitude[15];
 char	rxAltitude[8];
@@ -34,10 +34,13 @@ char	rxSpeed[8];
 char	rxMaxSpeed[8];
 char	rxAcceleration[8];
 char	rxMaxAcceleration[8];
+char	rxTemp[4];
+char	rxBattery[4];
 
 void telemetryRx::radioInit() {
 	delay(500);
 
+	/*
 	RH_RF95 driver;
 	RHReliableDatagram manager(driver, SERVER_ADDRESS);
 
@@ -54,9 +57,11 @@ void telemetryRx::radioInit() {
 		driver.setFrequency(RF95_FREQ);
 		driver.setCADTimeout(250);
 	}
+	*/
 }
 
 void telemetryRx::recieve() {
+	/*
 	RH_RF95 driver;
 	RHReliableDatagram manager(driver, CLIENT_ADDRESS);
 	RH_RF95 rf95(RFM95_CS, RFM95_INT);
@@ -79,10 +84,11 @@ void telemetryRx::recieve() {
 			Serial.println("sendtoWait failed");
 		}
 	}
+	*/
 }
 
 void telemetryRx::update() {
-	char rxData[100] = "HRDUAV,1,123519UTC,220318,37.137871,-113.649020,2567,3125,315,297,67,93";
+	char rxData[100] = "HRDUAV,5,16:13,2020/06/08,40.065067,-105.209660,297,301,49,52,63,97,49,95";
 
 	Serial.print("<RXDATA:");
 	Serial.print(rxData);
@@ -100,17 +106,25 @@ void telemetryRx::update() {
 	strcpy(rxMaxSpeed, strtok(NULL , ","));
 	strcpy(rxAcceleration, strtok(NULL , ","));
 	strcpy(rxMaxAcceleration, strtok(NULL , ","));
+	strcpy(rxTemp, strtok(NULL , ","));
+	strcat (rxTemp, "C");
+	strcpy(rxBattery, strtok(NULL , ","));
+	strcat (rxBattery, "%");
 
 	Serial.print("<STATIONID:");
 	Serial.print(rxStationID);
+	Serial.println(">");
+
+	Serial.print("<OBS:");
+	Serial.print(rxObsNumber);
 	Serial.println(">");
 
 	Serial.print("<CTIME:");
 	Serial.print(rxCurrentTime);
 	Serial.println(">");
 
-	Serial.print("<OBS:");
-	Serial.print(rxObsNumber);
+	Serial.print("<CDATE:");
+	Serial.print(rxCurrentDate);
 	Serial.println(">");
 
 	Serial.print("<LAT:");
@@ -143,15 +157,30 @@ void telemetryRx::update() {
 
 	Serial.print("<MAXACCEL:");
 	Serial.print(rxMaxAcceleration);
+	Serial.println(">");
+
+	Serial.print("<TEMP:");
+	Serial.print(rxTemp);
+	Serial.println(">");
+
+	Serial.print("<BATTERY:");
+	Serial.print(rxTemp);
 	Serial.println(">\n");
 }
 
-void telemetryRx::header() {
+void telemetryRx::header1() {
+	lcdDisplay.clearTop();
 	lcdDisplay.setCursor(0, 0);
-	lcdDisplay.print("Station ID:");
+	lcdDisplay.print("ID:");
 
-	lcdDisplay.setCursor(12, 0);
+	lcdDisplay.setCursor(4, 0);
 	lcdDisplay.print(rxStationID);
+
+	lcdDisplay.setCursor(11, 0);
+	lcdDisplay.print("Obs:");
+
+	lcdDisplay.setCursor(16, 0);
+	lcdDisplay.print(rxObsNumber);
 
 	lcdDisplay.setCursor(0, 1);
 	lcdDisplay.print("T:");
@@ -159,11 +188,38 @@ void telemetryRx::header() {
 	lcdDisplay.setCursor(2, 1);
 	lcdDisplay.print(rxCurrentTime);
 
-	lcdDisplay.setCursor(12, 1);
+	lcdDisplay.setCursor(8, 1);
+	lcdDisplay.print("D:");
+
+	lcdDisplay.setCursor(10, 1);
+	lcdDisplay.print(rxCurrentDate);
+}
+
+void telemetryRx::header2() {
+	lcdDisplay.clearTop();
+	lcdDisplay.setCursor(0, 0);
+	lcdDisplay.print("ID:");
+
+	lcdDisplay.setCursor(4, 0);
+	lcdDisplay.print(rxStationID);
+
+	lcdDisplay.setCursor(11, 0);
 	lcdDisplay.print("Obs:");
 
-	lcdDisplay.setCursor(16, 1);
+	lcdDisplay.setCursor(16, 0);
 	lcdDisplay.print(rxObsNumber);
+
+	lcdDisplay.setCursor(0, 1);
+	lcdDisplay.print("Batt:");
+
+	lcdDisplay.setCursor(6, 1);
+	lcdDisplay.print(rxBattery);
+
+	lcdDisplay.setCursor(11, 1);
+	lcdDisplay.print("Temp:");
+
+	lcdDisplay.setCursor(17, 1);
+	lcdDisplay.print(rxTemp);
 }
 
 void telemetryRx::position() {

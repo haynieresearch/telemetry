@@ -28,7 +28,8 @@
 class telemetryRx {
 	public:
 		void parse();
-		void header();
+		void header1();
+		void header2();
 		void position();
 		void altitude();
 		void speed();
