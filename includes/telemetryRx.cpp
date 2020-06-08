@@ -19,6 +19,9 @@
 #define RFM95_INT 7
 #define RF95_FREQ 433.0
 
+#define CLIENT_ADDRESS 9273297286
+#define SERVER_ADDRESS 8962778729
+
 char	rxStationID[10];
 char	rxObsNumber[4];
 char	rxCurrentTime[10];
@@ -34,49 +37,51 @@ char	rxMaxAcceleration[8];
 
 void telemetryRx::radioInit() {
 	delay(500);
+
+	RH_RF95 driver;
+	RHReliableDatagram manager(driver, SERVER_ADDRESS);
+
 	pinMode(RFM95_RST, OUTPUT);
 	digitalWrite(RFM95_RST, HIGH);
 	RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
-	//while (!rf95.init()) {
-	//	Serial.println("<RADIOINIT:FAILED>");
-	//	while (1);
-	//} Serial.println("<RADIOINIT:SUCCESS>");
+	if (!manager.init()) {
+		Serial.println("<RADIOINIT:FAILED>");
+	}
 
-	//if (!rf95.setFrequency(RF95_FREQ)) {
-	//	Serial.println("<RADIOFREQ:FAILED>");
-	//	while (1);
-	//} Serial.print("<RADIOFREQ:SUCCESS FREQ:"); Serial.print(RF95_FREQ); Serial.println(">");
-
-	//rf95.setTxPower(23, false);
+	else {
+		driver.setTxPower(23, false);
+		driver.setFrequency(RF95_FREQ);
+		driver.setCADTimeout(250);
+	}
 }
 
 void telemetryRx::recieve() {
+	RH_RF95 driver;
+	RHReliableDatagram manager(driver, CLIENT_ADDRESS);
 	RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
-	if (rf95.available()) {
-		uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
+	uint8_t data[] = "And hello back to you";
+	uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
+
+	if (manager.available()) {
 		uint8_t len = sizeof(buf);
+		uint8_t from;
 
-		if (rf95.recv(buf, &len)) {
-			RH_RF95::printBuffer("Received: ", buf, len);
-			Serial.print("Got: ");
+		if (manager.recvfromAck(buf, &len, &from)) {
+			Serial.print("got request from : 0x");
+			Serial.print(from, HEX);
+			Serial.print(": ");
 			Serial.println((char*)buf);
-			Serial.print("RSSI: ");
-			Serial.println(rf95.lastRssi(), DEC);
 
-			// Send a reply
-			uint8_t data[] = "And hello back to you";
-			rf95.send(data, sizeof(data));
-			rf95.waitPacketSent();
-			Serial.println("Sent a reply");
-		}
-
-		else {
-			Serial.println("Receive failed");
+		// Send a reply back to the originator client
+		if (!manager.sendtoWait(data, sizeof(data), from))
+			Serial.println("sendtoWait failed");
 		}
 	}
+}
 
+void telemetryRx::update() {
 	char rxData[100] = "HRDUAV,1,123519UTC,220318,37.137871,-113.649020,2567,3125,315,297,67,93";
 
 	Serial.print("<RXDATA:");

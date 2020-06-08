@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <SPI.h>
 #include "battery.h"
+#include "RHReliableDatagram.h"
 #include "RH_RF95.h"
 
 class telemetryTx {

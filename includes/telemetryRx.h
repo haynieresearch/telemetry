@@ -22,6 +22,7 @@
 #include "checkSum.h"
 #include "memory.h"
 #include "battery.h"
+#include "RHReliableDatagram.h"
 #include "RH_RF95.h"
 
 class telemetryRx {
@@ -32,8 +33,9 @@ class telemetryRx {
 		void altitude();
 		void speed();
 		void acceleration();
-		void recieve();
+		void update();
 		void radioInit();
+		void recieve();
 
 	private:
 };

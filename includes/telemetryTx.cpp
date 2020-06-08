@@ -19,6 +19,9 @@
 #define RFM95_INT 7
 #define RF95_FREQ 433.0
 
+#define CLIENT_ADDRESS 9273297286
+#define SERVER_ADDRESS 8962778729
+
 static const int gpsRxPin = 4, gpsTxPin = 3;
 static const uint32_t gpsBaud = 9600;
 SoftwareSerial ss(gpsRxPin, gpsTxPin);
@@ -43,21 +46,23 @@ char 	strBuffer[15];
 
 void telemetryTx::radioInit() {
 	delay(500);
+
+	RH_RF95 driver;
+	RHReliableDatagram manager(driver, SERVER_ADDRESS);
+
 	pinMode(RFM95_RST, OUTPUT);
 	digitalWrite(RFM95_RST, HIGH);
 	RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
-	//while (!rf95.init()) {
-	//	Serial.println("<RADIOINIT:FAILED>");
-	//	while (1);
-	//} Serial.println("<RADIOINIT:SUCCESS>");
+	if (!manager.init()) {
+		Serial.println("<RADIOINIT:FAILED>");
+	}
 
-	//if (!rf95.setFrequency(RF95_FREQ)) {
-	//	Serial.println("<RADIOFREQ:FAILED>");
-	//	while (1);
-	//} Serial.print("<RADIOFREQ:SUCCESS FREQ:"); Serial.print(RF95_FREQ); Serial.println(">");
-
-	//rf95.setTxPower(23, false);
+	else {
+		driver.setTxPower(23, false);
+		driver.setFrequency(RF95_FREQ);
+		driver.setCADTimeout(250);
+	}
 }
 
 void telemetryTx::gpsInit() {
@@ -197,13 +202,38 @@ char* telemetryTx::format() {
 }
 
 int telemetryTx::tx(char* msg) {
+	RH_RF95 driver;
+	RHReliableDatagram manager(driver, CLIENT_ADDRESS);
 	RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
 	Serial.print("<TXDATA:");
 	Serial.print(msg);
 	Serial.println(">");
 
-	//rf95.send((uint8_t *)msg, 20);
+	Serial.println("Sending to rf95_reliable_datagram_server");
+
+	uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
+
+	// Send a message to manager_server
+	if (manager.sendtoWait(msg, sizeof(msg), SERVER_ADDRESS)) {
+		// Now wait for a reply from the server
+		uint8_t len = sizeof(buf);
+		uint8_t from;
+
+		if (manager.recvfromAckTimeout(buf, &len, 2000, &from)) {
+			Serial.print("got reply from : 0x");
+			Serial.print(from, HEX);
+			Serial.print(": ");
+			Serial.println((char*)buf);
+		}
+
+		else {
+			Serial.println("No reply, is rf95_reliable_datagram_server running?");
+		}
+	}
+
+	else
+		Serial.println("sendtoWait failed");
 
 	rtty.attach(12);
 	rtty.tx(msg);

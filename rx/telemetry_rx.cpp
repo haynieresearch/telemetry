@@ -50,10 +50,11 @@ void setup() {
 //program loop
 void loop() {
 	unsigned long currentTime = millis();
+	telemetryRx.recieve();
 
 	if (((currentTime - previousTime) >= 5000) && s1 == 0) {
 		latestCommand = millis();
-		telemetryRx.recieve();
+		telemetryRx.update();
 		telemetryRx.header();
 		telemetryRx.position();
 		s1 = 1;
