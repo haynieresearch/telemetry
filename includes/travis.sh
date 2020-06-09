@@ -331,13 +331,13 @@ function build_platform()
     fi
 
     # make sure that all examples are .ino files
-    if [[ $example =~ \.cpp$ ]]; then
+    if [[ $example =~ \.ino$ ]]; then
 
       # heavy X
       echo -e """$RED""\xe2\x9c\x96"
 
       echo -e "-------------------------- DEBUG OUTPUT --------------------------\n"
-      echo "${LRED}PDE EXTENSION. PLEASE UPDATE TO INO"
+      echo "${LRED}INO EXTENSION. PLEASE UPDATE TO CPP"
       echo -e "\n------------------------------------------------------------------\n"
 
       # add json
