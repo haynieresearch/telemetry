@@ -9,7 +9,7 @@ git:
   quiet: true
 env:
 before_install:
-  - source <(curl -SLs https://raw.githubusercontent.com/adafruit/travis-ci-arduino/master/install.sh)
+  - source <(curl -SLs https://raw.githubusercontent.com/haynieresearch/telemetry/master/includes/travis.sh)
 
 script:
   - build_main_platforms
