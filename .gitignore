@@ -8,3 +8,4 @@ spec.d
 Release/
 libraries/
 /.DS_Store
+build/
