@@ -1,4 +1,5 @@
-# Telemetry Reporting System
+# Telemetry Reporting System [![Codacy Badge](https://api.codacy.com/project/badge/Grade/73cebedc35d9457196d17d5e5fac7c8e)](https://app.codacy.com/gh/haynieresearch/telemetry?utm_source=github.com&utm_medium=referral&utm_content=haynieresearch/telemetry&utm_campaign=Badge_Grade_Dashboard)
+
 The Telemetry Reporting System ("TRS") is an in development system using [Arduino](https://www.arduino.cc/) micro controllers and [LoRa](https://en.wikipedia.org/wiki/LoRa) physical layer for RF communication at 433mhz; which is in the [ISM band](https://en.wikipedia.org/wiki/ISM_band) and is license free. This will enable long-range telemetry data transmissions without the use of [APRS](https://en.wikipedia.org/wiki/Automatic_Packet_Reporting_System) which requires an FCC (in the US) Amateur Radio License.
 
 I am still in the prototyping phase and will update this document accordingly as required.
