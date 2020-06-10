@@ -32,56 +32,51 @@ HardwareSPI SPI(1);
  #define SPI_CLOCK_DIV1  (VARIANT_MCK/5250000)  // 16MHz
 #endif
 
-RHHardwareSPI::RHHardwareSPI(Frequency frequency, BitOrder bitOrder, DataMode dataMode)
-    :
-    RHGenericSPI(frequency, bitOrder, dataMode)
-{
+RHHardwareSPI::RHHardwareSPI(Frequency frequency, BitOrder bitOrder,
+		DataMode dataMode) :
+		RHGenericSPI(frequency, bitOrder, dataMode) {
 }
 
-uint8_t RHHardwareSPI::transfer(uint8_t data) 
-{
-    return SPI.transfer(data);
+uint8_t RHHardwareSPI::transfer(uint8_t data) {
+	return SPI.transfer(data);
 }
 
-void RHHardwareSPI::attachInterrupt() 
-{
+void RHHardwareSPI::attachInterrupt() {
 #if (RH_PLATFORM == RH_PLATFORM_ARDUINO)
-    SPI.attachInterrupt();
+	SPI.attachInterrupt();
 #endif
 }
 
-void RHHardwareSPI::detachInterrupt() 
-{
+void RHHardwareSPI::detachInterrupt() {
 #if (RH_PLATFORM == RH_PLATFORM_ARDUINO)
-    SPI.detachInterrupt();
+	SPI.detachInterrupt();
 #endif
 }
-    
-void RHHardwareSPI::begin() 
-{
-    // Sigh: there are no common symbols for some of these SPI options across all platforms
+
+void RHHardwareSPI::begin() {
+	// Sigh: there are no common symbols for some of these SPI options across all platforms
 #if (RH_PLATFORM == RH_PLATFORM_ARDUINO) || (RH_PLATFORM == RH_PLATFORM_UNO32) || (RH_PLATFORM == RH_PLATFORM_CHIPKIT_CORE)
-    uint8_t dataMode;
-    if (_dataMode == DataMode0)
-	dataMode = SPI_MODE0;
-    else if (_dataMode == DataMode1)
-	dataMode = SPI_MODE1;
-    else if (_dataMode == DataMode2)
-	dataMode = SPI_MODE2;
-    else if (_dataMode == DataMode3)
-	dataMode = SPI_MODE3;
-    else
-	dataMode = SPI_MODE0;
+	uint8_t dataMode;
+	if (_dataMode == DataMode0)
+		dataMode = SPI_MODE0;
+	else if (_dataMode == DataMode1)
+		dataMode = SPI_MODE1;
+	else if (_dataMode == DataMode2)
+		dataMode = SPI_MODE2;
+	else if (_dataMode == DataMode3)
+		dataMode = SPI_MODE3;
+	else
+		dataMode = SPI_MODE0;
 #if (RH_PLATFORM == RH_PLATFORM_ARDUINO) && defined(__arm__) && defined(CORE_TEENSY)
     // Temporary work-around due to problem where avr_emulation.h does not work properly for the setDataMode() cal
     SPCR &= ~SPI_MODE_MASK;
 #else
- #if (RH_PLATFORM == RH_PLATFORM_ARDUINO) && defined (__arm__) && defined(ARDUINO_ARCH_SAMD)
+#if (RH_PLATFORM == RH_PLATFORM_ARDUINO) && defined (__arm__) && defined(ARDUINO_ARCH_SAMD)
     // Zero requires begin() before anything else :-)
     SPI.begin();
  #endif
 
-    SPI.setDataMode(dataMode);
+	SPI.setDataMode(dataMode);
 #endif
 
 #if (RH_PLATFORM == RH_PLATFORM_ARDUINO) && defined (__arm__) && (defined(ARDUINO_SAM_DUE) || defined(ARDUINO_ARCH_SAMD))
@@ -89,55 +84,54 @@ void RHHardwareSPI::begin()
     // So too does Arduino Zero
     ::BitOrder bitOrder;
 #else
-    uint8_t bitOrder;
+	uint8_t bitOrder;
 #endif
-    if (_bitOrder == BitOrderLSBFirst)
-	bitOrder = LSBFIRST;
-    else
-	bitOrder = MSBFIRST;
-    SPI.setBitOrder(bitOrder);
-    uint8_t divider;
-    switch (_frequency)
-    {
+	if (_bitOrder == BitOrderLSBFirst)
+		bitOrder = LSBFIRST;
+	else
+		bitOrder = MSBFIRST;
+	SPI.setBitOrder(bitOrder);
+	uint8_t divider;
+	switch (_frequency) {
 	case Frequency1MHz:
 	default:
 #if F_CPU == 8000000
 	    divider = SPI_CLOCK_DIV8;
 #else
-	    divider = SPI_CLOCK_DIV16;
+		divider = SPI_CLOCK_DIV16;
 #endif
-	    break;
+		break;
 
 	case Frequency2MHz:
 #if F_CPU == 8000000
 	    divider = SPI_CLOCK_DIV4;
 #else
-	    divider = SPI_CLOCK_DIV8;
+		divider = SPI_CLOCK_DIV8;
 #endif
-	    break;
+		break;
 
 	case Frequency4MHz:
 #if F_CPU == 8000000
 	    divider = SPI_CLOCK_DIV2;
 #else
-	    divider = SPI_CLOCK_DIV4;
+		divider = SPI_CLOCK_DIV4;
 #endif
-	    break;
+		break;
 
 	case Frequency8MHz:
-	    divider = SPI_CLOCK_DIV2; // 4MHz on an 8MHz Arduino
-	    break;
+		divider = SPI_CLOCK_DIV2; // 4MHz on an 8MHz Arduino
+		break;
 
 	case Frequency16MHz:
-	    divider = SPI_CLOCK_DIV2; // Not really 16MHz, only 8MHz. 4MHz on an 8MHz Arduino
-	    break;
+		divider = SPI_CLOCK_DIV2; // Not really 16MHz, only 8MHz. 4MHz on an 8MHz Arduino
+		break;
 
-    }
+	}
 
-    SPI.setClockDivider(divider);
-    SPI.begin();
-    // Teensy requires it to be set _after_ begin()
-    SPI.setClockDivider(divider);
+	SPI.setClockDivider(divider);
+	SPI.begin();
+	// Teensy requires it to be set _after_ begin()
+	SPI.setClockDivider(divider);
 
 #elif (RH_PLATFORM == RH_PLATFORM_STM32) // Maple etc
     spi_mode dataMode;
@@ -371,9 +365,8 @@ void RHHardwareSPI::begin()
 #endif
 }
 
-void RHHardwareSPI::end() 
-{
-    return SPI.end();
+void RHHardwareSPI::end() {
+	return SPI.end();
 }
 
 #endif

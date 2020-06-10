@@ -1,53 +1,53 @@
 /*
-**********************************************************
-* CATEGORY	HARDWARE
-* GROUP		TELEMETRY SYSTEM
-* AUTHOR	LANCE HAYNIE <LANCE@HAYNIEMAIL.COM>
-* DATE		2020-06-05
-* PURPOSE	TELEMETRY TRANSMITTER FUNCTIONS
-* FILE		TELEMETRYTX.CPP
-**********************************************************
-* MODIFICATIONS
-* 2020-06-05 - LHAYNIE - INITIAL VERSION
-**********************************************************
-Telemetry Tracking & Reporting System
-Copyright (C) 2020  Haynie Research & Development, LLC
+ **********************************************************
+ * CATEGORY	HARDWARE
+ * GROUP		TELEMETRY SYSTEM
+ * AUTHOR	LANCE HAYNIE <LANCE@HAYNIEMAIL.COM>
+ * DATE		2020-06-05
+ * PURPOSE	TELEMETRY TRANSMITTER FUNCTIONS
+ * FILE		TELEMETRYTX.CPP
+ **********************************************************
+ * MODIFICATIONS
+ * 2020-06-05 - LHAYNIE - INITIAL VERSION
+ **********************************************************
+ Telemetry Tracking & Reporting System
+ Copyright (C) 2020  Haynie Research & Development, LLC
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
+ You should have received a copy of the GNU General Public License along
+ with this program; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
 
 #include "telemetryTx.h"
 
-char 	txStationID[11];
-int		txObsNumber = 0;
-char	txCurrentTime[6];
-char	txCurrentDate[11];
-char	txLatitude[15];
-char	txLongitude[15];
-char	txAltitude[8];
-char	txMaxAltitude[8];
-char	txSpeed[8];
-char	txMaxSpeed[8];
-char	txAcceleration[8];
-char	txMaxAcceleration[8];
-char	txTemp[4];
-char	txBattery[4];
-char	txData[200];
-float   maxAltTracking = 0;
-float	maxSpeedTracking = 0;
-float	maxAccelTracking = 0;
-char 	strBuffer[15];
+char txStationID[11];
+int txObsNumber = 0;
+char txCurrentTime[6];
+char txCurrentDate[11];
+char txLatitude[15];
+char txLongitude[15];
+char txAltitude[8];
+char txMaxAltitude[8];
+char txSpeed[8];
+char txMaxSpeed[8];
+char txAcceleration[8];
+char txMaxAcceleration[8];
+char txTemp[4];
+char txBattery[4];
+char txData[200];
+float maxAltTracking = 0;
+float maxSpeedTracking = 0;
+float maxAccelTracking = 0;
+char strBuffer[15];
 
 static const int RXPin = 8, TXPin = 9;
 static const uint32_t GPSBaud = 9600;
@@ -89,34 +89,34 @@ void telemetryTx::gpsInit() {
 int telemetryTx::gpsRead() {
 	gps.encode(ss.read());
 
-	strcpy (txCurrentTime, dtostrf(gps.time.hour(),2,0,strBuffer));
-	strcat (txCurrentTime, ":");
-	strcat (txCurrentTime, dtostrf(gps.time.minute(),2,0,strBuffer));
+	strcpy(txCurrentTime, dtostrf(gps.time.hour(), 2, 0, strBuffer));
+	strcat(txCurrentTime, ":");
+	strcat(txCurrentTime, dtostrf(gps.time.minute(), 2, 0, strBuffer));
 	charTrim.trim(txCurrentTime);
 
 	char year[5];
-	strcpy (year, dtostrf(gps.date.year(),4,0,strBuffer));
+	strcpy(year, dtostrf(gps.date.year(), 4, 0, strBuffer));
 	charTrim.trim(year);
 
 	char month[3];
-	strcpy (month, dtostrf(gps.date.month(),2,0,strBuffer));
+	strcpy(month, dtostrf(gps.date.month(), 2, 0, strBuffer));
 	charTrim.trim(month);
 
 	char day[3];
-	strcpy (day, dtostrf(gps.date.day(),2,0,strBuffer));
+	strcpy(day, dtostrf(gps.date.day(), 2, 0, strBuffer));
 	charTrim.trim(day);
 
-	strcpy (txCurrentDate, year);
-	strcat (txCurrentDate, "/");
-	strcat (txCurrentDate, month);
-	strcat (txCurrentDate, "/");
-	strcat (txCurrentDate, day);
+	strcpy(txCurrentDate, year);
+	strcat(txCurrentDate, "/");
+	strcat(txCurrentDate, month);
+	strcat(txCurrentDate, "/");
+	strcat(txCurrentDate, day);
 	charTrim.trim(txCurrentDate);
 
-	strcpy(txLatitude, dtostrf(gps.location.lat(),11,6,strBuffer));
+	strcpy(txLatitude, dtostrf(gps.location.lat(), 11, 6, strBuffer));
 	charTrim.trim(txLatitude);
 
-	strcpy(txLongitude, dtostrf(gps.location.lng(),11,6,strBuffer));
+	strcpy(txLongitude, dtostrf(gps.location.lng(), 11, 6, strBuffer));
 	charTrim.trim(txLongitude);
 
 	String buf = "";
@@ -131,11 +131,11 @@ int telemetryTx::gpsRead() {
 
 	buf = "";
 	char gpsSpeed[20];
-	buf += itoa(gps.speed.kmph()/3.6, gpsSpeed, 10);
+	buf += itoa(gps.speed.kmph() / 3.6, gpsSpeed, 10);
 	strcpy(txSpeed, gpsSpeed);
 
-	if (gps.speed.kmph()/3.6 >= maxAltTracking) {
-		maxSpeedTracking = gps.speed.kmph()/3.6;
+	if (gps.speed.kmph() / 3.6 >= maxAltTracking) {
+		maxSpeedTracking = gps.speed.kmph() / 3.6;
 		strcpy(txMaxSpeed, gpsSpeed);
 	}
 
@@ -144,23 +144,23 @@ int telemetryTx::gpsRead() {
 
 void telemetryTx::radioInit() {
 	/*
-	RH_RF95 driver;
-	RHReliableDatagram manager(driver, SERVER_ADDRESS);
+	 RH_RF95 driver;
+	 RHReliableDatagram manager(driver, SERVER_ADDRESS);
 
-	pinMode(RFM95_RST, OUTPUT);
-	digitalWrite(RFM95_RST, HIGH);
-	RH_RF95 rf95(RFM95_CS, RFM95_INT);
+	 pinMode(RFM95_RST, OUTPUT);
+	 digitalWrite(RFM95_RST, HIGH);
+	 RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
-	if (!manager.init()) {
-		Serial.println("<RADIOINIT:FAILED>");
-	}
+	 if (!manager.init()) {
+	 Serial.println("<RADIOINIT:FAILED>");
+	 }
 
-	else {
-		driver.setTxPower(23, false);
-		driver.setFrequency(RF95_FREQ);
-		driver.setCADTimeout(250);
-	}
-	*/
+	 else {
+	 driver.setTxPower(23, false);
+	 driver.setFrequency(RF95_FREQ);
+	 driver.setCADTimeout(250);
+	 }
+	 */
 	delay(500);
 }
 
@@ -168,20 +168,22 @@ void telemetryTx::update() {
 	ADXL345 adxl = ADXL345();
 	DHT dht(DHTPIN, DHTTYPE);
 
-	int x,y,z;
+	int x, y, z;
 	adxl.readAccel(&x, &y, &z);
 
 	int maxAccel = x;
-	if (y > maxAccel) maxAccel = y;
-	if (z > maxAccel) maxAccel = z;
+	if (y > maxAccel)
+		maxAccel = y;
+	if (z > maxAccel)
+		maxAccel = z;
 
 	String buf = "";
 	char accel[20];
-	buf += itoa(maxAccel/0.10197162129779, accel, 10);
+	buf += itoa(maxAccel / 0.10197162129779, accel, 10);
 	strcpy(txAcceleration, accel);
 
-	if (maxAccel/0.10197162129779 > maxAccelTracking) {
-		maxAccelTracking = maxAccel/0.10197162129779;
+	if (maxAccel / 0.10197162129779 > maxAccelTracking) {
+		maxAccelTracking = maxAccel / 0.10197162129779;
 		strcpy(txMaxAcceleration, accel);
 	}
 
@@ -192,7 +194,7 @@ void telemetryTx::update() {
 	strcpy(txTemp, temp);
 	charTrim.trim(txTemp);
 
-	strcpy(txBattery, dtostrf(battery.charge(),3,0,strBuffer));
+	strcpy(txBattery, dtostrf(battery.charge(), 3, 0, strBuffer));
 	charTrim.trim(txBattery);
 }
 
@@ -204,33 +206,33 @@ char* telemetryTx::format() {
 	char obs[20];
 	buf += itoa(txObsNumber, obs, 10);
 
-	strcpy (txData, txStationID);
-	strcat (txData, ",");
-	strcat (txData, obs);
-	strcat (txData, ",");
-	strcat (txData, txCurrentTime);
-	strcat (txData, ",");
-	strcat (txData, txCurrentDate);
-	strcat (txData, ",");
-	strcat (txData, txLatitude);
-	strcat (txData, ",");
-	strcat (txData, txLongitude);
-	strcat (txData, ",");
-	strcat (txData, txAltitude);
-	strcat (txData, ",");
-	strcat (txData, txMaxAltitude);
-	strcat (txData, ",");
-	strcat (txData, txSpeed);
-	strcat (txData, ",");
-	strcat (txData, txMaxSpeed);
-	strcat (txData, ",");
-	strcat (txData, txAcceleration);
-	strcat (txData, ",");
-	strcat (txData, txMaxAcceleration);
-	strcat (txData, ",");
-	strcat (txData, txTemp);
-	strcat (txData, ",");
-	strcat (txData, txBattery);
+	strcpy(txData, txStationID);
+	strcat(txData, ",");
+	strcat(txData, obs);
+	strcat(txData, ",");
+	strcat(txData, txCurrentTime);
+	strcat(txData, ",");
+	strcat(txData, txCurrentDate);
+	strcat(txData, ",");
+	strcat(txData, txLatitude);
+	strcat(txData, ",");
+	strcat(txData, txLongitude);
+	strcat(txData, ",");
+	strcat(txData, txAltitude);
+	strcat(txData, ",");
+	strcat(txData, txMaxAltitude);
+	strcat(txData, ",");
+	strcat(txData, txSpeed);
+	strcat(txData, ",");
+	strcat(txData, txMaxSpeed);
+	strcat(txData, ",");
+	strcat(txData, txAcceleration);
+	strcat(txData, ",");
+	strcat(txData, txMaxAcceleration);
+	strcat(txData, ",");
+	strcat(txData, txTemp);
+	strcat(txData, ",");
+	strcat(txData, txBattery);
 
 	Serial.print("<STATIONID:");
 	Serial.print(txStationID);
@@ -291,7 +293,7 @@ char* telemetryTx::format() {
 	return txData;
 }
 
-int telemetryTx::tx(char* msg) {
+int telemetryTx::tx(char *msg) {
 	//RH_RF95 driver;
 	//RHReliableDatagram manager(driver, CLIENT_ADDRESS);
 	//RH_RF95 rf95(RFM95_CS, RFM95_INT);
@@ -302,32 +304,32 @@ int telemetryTx::tx(char* msg) {
 
 	/*
 
-	Serial.println("Sending to rf95_reliable_datagram_server");
+	 Serial.println("Sending to rf95_reliable_datagram_server");
 
-	uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
+	 uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
 
-	// Send a message to manager_server
-	if (manager.sendtoWait(msg, sizeof(msg), SERVER_ADDRESS)) {
-		// Now wait for a reply from the server
-		uint8_t len = sizeof(buf);
-		uint8_t from;
+	 // Send a message to manager_server
+	 if (manager.sendtoWait(msg, sizeof(msg), SERVER_ADDRESS)) {
+	 // Now wait for a reply from the server
+	 uint8_t len = sizeof(buf);
+	 uint8_t from;
 
-		if (manager.recvfromAckTimeout(buf, &len, 2000, &from)) {
-			Serial.print("got reply from : 0x");
-			Serial.print(from, HEX);
-			Serial.print(": ");
-			Serial.println((char*)buf);
-		}
+	 if (manager.recvfromAckTimeout(buf, &len, 2000, &from)) {
+	 Serial.print("got reply from : 0x");
+	 Serial.print(from, HEX);
+	 Serial.print(": ");
+	 Serial.println((char*)buf);
+	 }
 
-		else {
-			Serial.println("No reply, is rf95_reliable_datagram_server running?");
-		}
-	}
+	 else {
+	 Serial.println("No reply, is rf95_reliable_datagram_server running?");
+	 }
+	 }
 
-	else
-		Serial.println("sendtoWait failed");
+	 else
+	 Serial.println("sendtoWait failed");
 
-	*/
+	 */
 
 	rtty.attach(12);
 	rtty.tx(msg);

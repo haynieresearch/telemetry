@@ -1,31 +1,31 @@
 /*
-**********************************************************
-* CATEGORY	HARDWARE
-* GROUP		TELEMETRY SYSTEM
-* AUTHOR	LANCE HAYNIE <LANCE@HAYNIEMAIL.COM>
-* DATE		2020-06-05
-* PURPOSE	TELEMETRY RECEIVER FUNCTIONS
-* FILE		TELEMETRYRX.CPP
-**********************************************************
-* MODIFICATIONS
-* 2020-06-05 - LHAYNIE - INITIAL VERSION
-**********************************************************
-Telemetry Tracking & Reporting System
-Copyright (C) 2020  Haynie Research & Development, LLC
+ **********************************************************
+ * CATEGORY	HARDWARE
+ * GROUP		TELEMETRY SYSTEM
+ * AUTHOR	LANCE HAYNIE <LANCE@HAYNIEMAIL.COM>
+ * DATE		2020-06-05
+ * PURPOSE	TELEMETRY RECEIVER FUNCTIONS
+ * FILE		TELEMETRYRX.CPP
+ **********************************************************
+ * MODIFICATIONS
+ * 2020-06-05 - LHAYNIE - INITIAL VERSION
+ **********************************************************
+ Telemetry Tracking & Reporting System
+ Copyright (C) 2020  Haynie Research & Development, LLC
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
+ You should have received a copy of the GNU General Public License along
+ with this program; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
 
 #include "telemetryRx.h"
 
@@ -37,94 +37,95 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define CLIENT_ADDRESS 9273297286
 #define SERVER_ADDRESS 8962778729
 
-char 	rxStationID[11];
-char	rxObsNumber[5];
-char	rxCurrentTime[6];
-char	rxCurrentDate[11];
-char	rxLatitude[15];
-char	rxLongitude[15];
-char	rxAltitude[8];
-char	rxMaxAltitude[8];
-char	rxSpeed[8];
-char	rxMaxSpeed[8];
-char	rxAcceleration[8];
-char	rxMaxAcceleration[8];
-char	rxTemp[4];
-char	rxBattery[4];
+char rxStationID[11];
+char rxObsNumber[5];
+char rxCurrentTime[6];
+char rxCurrentDate[11];
+char rxLatitude[15];
+char rxLongitude[15];
+char rxAltitude[8];
+char rxMaxAltitude[8];
+char rxSpeed[8];
+char rxMaxSpeed[8];
+char rxAcceleration[8];
+char rxMaxAcceleration[8];
+char rxTemp[4];
+char rxBattery[4];
 
 void telemetryRx::radioInit() {
 	delay(500);
 
 	/*
-	RH_RF95 driver;
-	RHReliableDatagram manager(driver, SERVER_ADDRESS);
+	 RH_RF95 driver;
+	 RHReliableDatagram manager(driver, SERVER_ADDRESS);
 
-	pinMode(RFM95_RST, OUTPUT);
-	digitalWrite(RFM95_RST, HIGH);
-	RH_RF95 rf95(RFM95_CS, RFM95_INT);
+	 pinMode(RFM95_RST, OUTPUT);
+	 digitalWrite(RFM95_RST, HIGH);
+	 RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
-	if (!manager.init()) {
-		Serial.println("<RADIOINIT:FAILED>");
-	}
+	 if (!manager.init()) {
+	 Serial.println("<RADIOINIT:FAILED>");
+	 }
 
-	else {
-		driver.setTxPower(23, false);
-		driver.setFrequency(RF95_FREQ);
-		driver.setCADTimeout(250);
-	}
-	*/
+	 else {
+	 driver.setTxPower(23, false);
+	 driver.setFrequency(RF95_FREQ);
+	 driver.setCADTimeout(250);
+	 }
+	 */
 }
 
 void telemetryRx::recieve() {
 	/*
-	RH_RF95 driver;
-	RHReliableDatagram manager(driver, CLIENT_ADDRESS);
-	RH_RF95 rf95(RFM95_CS, RFM95_INT);
+	 RH_RF95 driver;
+	 RHReliableDatagram manager(driver, CLIENT_ADDRESS);
+	 RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
-	uint8_t data[] = "And hello back to you";
-	uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
+	 uint8_t data[] = "And hello back to you";
+	 uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
 
-	if (manager.available()) {
-		uint8_t len = sizeof(buf);
-		uint8_t from;
+	 if (manager.available()) {
+	 uint8_t len = sizeof(buf);
+	 uint8_t from;
 
-		if (manager.recvfromAck(buf, &len, &from)) {
-			Serial.print("got request from : 0x");
-			Serial.print(from, HEX);
-			Serial.print(": ");
-			Serial.println((char*)buf);
+	 if (manager.recvfromAck(buf, &len, &from)) {
+	 Serial.print("got request from : 0x");
+	 Serial.print(from, HEX);
+	 Serial.print(": ");
+	 Serial.println((char*)buf);
 
-		// Send a reply back to the originator client
-		if (!manager.sendtoWait(data, sizeof(data), from))
-			Serial.println("sendtoWait failed");
-		}
-	}
-	*/
+	 // Send a reply back to the originator client
+	 if (!manager.sendtoWait(data, sizeof(data), from))
+	 Serial.println("sendtoWait failed");
+	 }
+	 }
+	 */
 }
 
 void telemetryRx::update() {
-	char rxData[100] = "HRDUAV,5,16:13,2020/06/08,40.065067,-105.209660,297,301,49,52,63,97,49,95";
+	char rxData[100] =
+			"HRDUAV,5,16:13,2020/06/08,40.065067,-105.209660,297,301,49,52,63,97,49,95";
 
 	Serial.print("<RXDATA:");
 	Serial.print(rxData);
 	Serial.println(">");
 
-	strcpy(rxStationID, strtok(rxData , ","));
-	strcpy(rxObsNumber, strtok(NULL , ","));
-	strcpy(rxCurrentTime, strtok(NULL , ","));
-	strcpy(rxCurrentDate, strtok(NULL , ","));
-	strcpy(rxLatitude, strtok(NULL , ","));
-	strcpy(rxLongitude, strtok(NULL , ","));
-	strcpy(rxAltitude, strtok(NULL , ","));
-	strcpy(rxMaxAltitude, strtok(NULL , ","));
-	strcpy(rxSpeed, strtok(NULL , ","));
-	strcpy(rxMaxSpeed, strtok(NULL , ","));
-	strcpy(rxAcceleration, strtok(NULL , ","));
-	strcpy(rxMaxAcceleration, strtok(NULL , ","));
-	strcpy(rxTemp, strtok(NULL , ","));
-	strcat (rxTemp, "C");
-	strcpy(rxBattery, strtok(NULL , ","));
-	strcat (rxBattery, "%");
+	strcpy(rxStationID, strtok(rxData, ","));
+	strcpy(rxObsNumber, strtok(NULL, ","));
+	strcpy(rxCurrentTime, strtok(NULL, ","));
+	strcpy(rxCurrentDate, strtok(NULL, ","));
+	strcpy(rxLatitude, strtok(NULL, ","));
+	strcpy(rxLongitude, strtok(NULL, ","));
+	strcpy(rxAltitude, strtok(NULL, ","));
+	strcpy(rxMaxAltitude, strtok(NULL, ","));
+	strcpy(rxSpeed, strtok(NULL, ","));
+	strcpy(rxMaxSpeed, strtok(NULL, ","));
+	strcpy(rxAcceleration, strtok(NULL, ","));
+	strcpy(rxMaxAcceleration, strtok(NULL, ","));
+	strcpy(rxTemp, strtok(NULL, ","));
+	strcat(rxTemp, "C");
+	strcpy(rxBattery, strtok(NULL, ","));
+	strcat(rxBattery, "%");
 
 	Serial.print("<STATIONID:");
 	Serial.print(rxStationID);

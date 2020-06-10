@@ -1,31 +1,31 @@
 /*
-**********************************************************
-* CATEGORY	HARDWARE
-* GROUP		TELEMETRY SYSTEM
-* AUTHOR	LANCE HAYNIE <LANCE@HAYNIEMAIL.COM>
-* DATE		2020-06-08
-* PURPOSE	ADXL345 FUNCTIONS
-* FILE		ADXL345.H
-**********************************************************
-* MODIFICATIONS
-* 2020-06-08 - LHAYNIE - INITIAL VERSION
-**********************************************************
-Telemetry Tracking & Reporting System
-Copyright (C) 2020  Haynie Research & Development, LLC
+ **********************************************************
+ * CATEGORY	HARDWARE
+ * GROUP		TELEMETRY SYSTEM
+ * AUTHOR	LANCE HAYNIE <LANCE@HAYNIEMAIL.COM>
+ * DATE		2020-06-08
+ * PURPOSE	ADXL345 FUNCTIONS
+ * FILE		ADXL345.H
+ **********************************************************
+ * MODIFICATIONS
+ * 2020-06-08 - LHAYNIE - INITIAL VERSION
+ **********************************************************
+ Telemetry Tracking & Reporting System
+ Copyright (C) 2020  Haynie Research & Development, LLC
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
+ You should have received a copy of the GNU General Public License along
+ with this program; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
 
 #include "Arduino.h"
 
@@ -82,13 +82,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define ADXL345_BW_0_10			0x1			// 0001		IDD = 23uA
 #define ADXL345_BW_0_05			0x0			// 0000		IDD = 23uA
 
-
- /************************** INTERRUPT PINS **************************/
+/************************** INTERRUPT PINS **************************/
 #define ADXL345_INT1_PIN		0x00		//INT1: 0
 #define ADXL345_INT2_PIN		0x01		//INT2: 1
 
-
- /********************** INTERRUPT BIT POSITION **********************/
+/********************** INTERRUPT BIT POSITION **********************/
 #define ADXL345_INT_DATA_READY_BIT		0x07
 #define ADXL345_INT_SINGLE_TAP_BIT		0x06
 #define ADXL345_INT_DOUBLE_TAP_BIT		0x05
@@ -107,8 +105,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define ADXL345_WATERMARK				0x01
 #define ADXL345_OVERRUNY				0x00
 
-
- /****************************** ERRORS ******************************/
+/****************************** ERRORS ******************************/
 #define ADXL345_OK			1		// No Error
 #define ADXL345_ERROR		0		// Error Exists
 
@@ -116,28 +113,26 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define ADXL345_READ_ERROR	1		// Accelerometer Reading Error
 #define ADXL345_BAD_ARG		2		// Bad Argument
 
-
-class ADXL345
-{
+class ADXL345 {
 public:
 	bool status;					// Set When Error Exists 
 
 	byte error_code;				// Initial State
 	double gains[3];				// Counts to Gs
-	
+
 	ADXL345();
 	ADXL345(int CS);
 	void powerOn();
-	void readAccel(int* xyx);
-	void readAccel(int* x, int* y, int* z);
+	void readAccel(int *xyx);
+	void readAccel(int *x, int *y, int *z);
 	void get_Gxyz(double *xyz);
-	
+
 	void setTapThreshold(int tapThreshold);
 	int getTapThreshold();
 	void setAxisGains(double *_gains);
 	void getAxisGains(double *_gains);
 	void setAxisOffset(int x, int y, int z);
-	void getAxisOffset(int* x, int* y, int*z);
+	void getAxisOffset(int *x, int *y, int *z);
 	void setTapDuration(int tapDuration);
 	int getTapDuration();
 	void setDoubleTapLatency(int doubleTapLatency);
@@ -154,7 +149,7 @@ public:
 	int getFreeFallThreshold();
 	void setFreeFallDuration(int freeFallDuration);
 	int getFreeFallDuration();
-	
+
 	bool isActivityXEnabled();
 	bool isActivityYEnabled();
 	bool isActivityZEnabled();
@@ -165,7 +160,7 @@ public:
 	bool isInactivityAc();
 	void setActivityAc(bool state);
 	void setInactivityAc(bool state);
-	
+
 	bool getSuppressBit();
 	void setSuppressBit(bool state);
 	bool isTapDetectionOnX();
@@ -175,7 +170,7 @@ public:
 	bool isTapDetectionOnZ();
 	void setTapDetectionOnZ(bool state);
 	void setTapDetectionOnXYZ(bool stateX, bool stateY, bool stateZ);
-	
+
 	void setActivityX(bool state);
 	void setActivityY(bool state);
 	void setActivityZ(bool state);
@@ -184,7 +179,7 @@ public:
 	void setInactivityY(bool state);
 	void setInactivityZ(bool state);
 	void setInactivityXYZ(bool stateX, bool stateY, bool stateZ);
-	
+
 	bool isActivitySourceOnX();
 	bool isActivitySourceOnY();
 	bool isActivitySourceOnZ();
@@ -192,30 +187,31 @@ public:
 	bool isTapSourceOnY();
 	bool isTapSourceOnZ();
 	bool isAsleep();
-	
+
 	bool isLowPower();
 	void setLowPower(bool state);
 	double getRate();
 	void setRate(double rate);
 	void set_bw(byte bw_code);
-	byte get_bw_code();  
-	
+	byte get_bw_code();
+
 	bool triggered(byte interrupts, int mask);
-	
+
 	byte getInterruptSource();
 	bool getInterruptSource(byte interruptBit);
 	bool getInterruptMapping(byte interruptBit);
 	void setInterruptMapping(byte interruptBit, bool interruptPin);
 	bool isInterruptEnabled(byte interruptBit);
 	void setInterrupt(byte interruptBit, bool state);
-	void setImportantInterruptMapping(int single_tap, int double_tap, int free_fall, int activity, int inactivity);
+	void setImportantInterruptMapping(int single_tap, int double_tap,
+			int free_fall, int activity, int inactivity);
 	void InactivityINT(bool status);
 	void ActivityINT(bool status);
 	void FreeFallINT(bool status);
 	void doubleTapINT(bool status);
 	void singleTapINT(bool status);
-	
-	void getRangeSetting(byte* rangeSetting);
+
+	void getRangeSetting(byte *rangeSetting);
 	void setRangeSetting(int val);
 	bool getSelfTestBit();
 	void setSelfTestBit(bool selfTestBit);
@@ -228,7 +224,7 @@ public:
 	bool getJustifyBit();
 	void setJustifyBit(bool justifyBit);
 	void printAllRegister();
-	
+
 private:
 	void writeTo(byte address, byte val);
 	void writeToI2C(byte address, byte val);
@@ -237,8 +233,8 @@ private:
 	void readFromI2C(byte address, int num, byte buff[]);
 	void readFromSPI(byte address, int num, byte buff[]);
 	void setRegisterBit(byte regAdress, int bitPos, bool state);
-	bool getRegisterBit(byte regAdress, int bitPos);  
-	byte _buff[6] ;		//	6 Bytes Buffer
+	bool getRegisterBit(byte regAdress, int bitPos);
+	byte _buff[6];		//	6 Bytes Buffer
 	int _CS = 10;
 	bool I2C = true;
 	unsigned long SPIfreq = 5000000;

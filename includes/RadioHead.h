@@ -696,7 +696,7 @@
 ////////////////////////////////////////////////////
 // Select platform automatically, if possible
 #ifndef RH_PLATFORM
- #if (MPIDE>=150 && defined(ARDUINO))
+#if (MPIDE>=150 && defined(ARDUINO))
   // Using ChipKIT Core on Arduino IDE
   #define RH_PLATFORM RH_PLATFORM_CHIPKIT_CORE
  #elif defined(MPIDE)
@@ -707,8 +707,8 @@
  #elif defined(ESP8266)
   #define RH_PLATFORM RH_PLATFORM_ESP8266
  #elif defined(ARDUINO)
-  #define RH_PLATFORM RH_PLATFORM_ARDUINO
- #elif defined(__MSP430G2452__) || defined(__MSP430G2553__)
+#define RH_PLATFORM RH_PLATFORM_ARDUINO
+#elif defined(__MSP430G2452__) || defined(__MSP430G2553__)
   #define RH_PLATFORM RH_PLATFORM_MSP430
  #elif defined(MCU_STM32F103RE)
   #define RH_PLATFORM RH_PLATFORM_STM32
@@ -734,18 +734,18 @@
 ////////////////////////////////////////////////////
 // Platform specific headers:
 #if (RH_PLATFORM == RH_PLATFORM_ARDUINO)
- #if (ARDUINO >= 100)
-  #include <Arduino.h>
- #else
+#if (ARDUINO >= 100)
+#include <Arduino.h>
+#else
   #include <wiring.h>
  #endif
- #ifdef RH_PLATFORM_ATTINY
+#ifdef RH_PLATFORM_ATTINY
   #warning Arduino TinyCore does not support hardware SPI. Use software SPI instead.
  #else
-  #include <SPI.h>
-  #define RH_HAVE_HARDWARE_SPI
-  #define RH_HAVE_SERIAL
- #endif
+#include <SPI.h>
+#define RH_HAVE_HARDWARE_SPI
+#define RH_HAVE_SERIAL
+#endif
 
 #elif (RH_PLATFORM == RH_PLATFORM_ESP8266) // ESP8266 processor on Arduino IDE
  #include <Arduino.h>
@@ -847,10 +847,10 @@
 #if defined(__arm__)
   #include <RHutil/atomic.h>
  #else
-  #include <util/atomic.h>
- #endif
- #define ATOMIC_BLOCK_START     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
- #define ATOMIC_BLOCK_END }
+#include <util/atomic.h>
+#endif
+#define ATOMIC_BLOCK_START     ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+#define ATOMIC_BLOCK_END }
 #elif (RH_PLATFORM == RH_PLATFORM_CHIPKIT_CORE)
  // UsingChipKIT Core on Arduino IDE
  #define ATOMIC_BLOCK_START unsigned int __status = disableInterrupts(); {
@@ -878,7 +878,7 @@
 // instead of spin-loops
 // Recent Arduino IDE or Teensy 3 has yield()
 #if (RH_PLATFORM == RH_PLATFORM_ARDUINO && ARDUINO >= 155 && !defined(RH_PLATFORM_ATTINY)) || (TEENSYDUINO && defined(__MK20DX128__))
- #define YIELD yield();
+#define YIELD yield();
 #elif (RH_PLATFORM == RH_PLATFORM_ESP8266)
 // ESP8266 also hash it
  #define YIELD yield();
@@ -935,7 +935,7 @@
 
 // Slave select pin, some platforms such as ATTiny do not define it.
 #ifndef SS
- #define SS 10
+#define SS 10
 #endif
 
 // These defs cause trouble on some versions of Arduino
@@ -948,17 +948,17 @@
 #if RH_PLATFORM != RH_PLATFORM_UNIX && !defined(htons)
 // #ifndef htons
 // These predefined macros availble on modern GCC compilers
- #if   __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-  // Atmel processors
-  #define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
-  #define ntohs(x) htons(x)
-  #define htonl(x) ( ((x)<<24 & 0xFF000000UL) | \
+#if   __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+// Atmel processors
+#define htons(x) ( ((x)<<8) | (((x)>>8)&0xFF) )
+#define ntohs(x) htons(x)
+#define htonl(x) ( ((x)<<24 & 0xFF000000UL) | \
                    ((x)<< 8 & 0x00FF0000UL) | \
                    ((x)>> 8 & 0x0000FF00UL) | \
                    ((x)>>24 & 0x000000FFUL) )
-  #define ntohl(x) htonl(x)
+#define ntohl(x) htonl(x)
 
- #elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+#elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
   // Others
   #define htons(x) (x)
   #define ntohs(x) (x)

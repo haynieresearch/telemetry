@@ -1,31 +1,31 @@
 /*
-**********************************************************
-* CATEGORY	hardware
-* GROUP		microcontroller
-* AUTHOR	Lance Haynie <lance@hayniemail.com>
-* DATE		2015-12-05
-* FILE		atmega_pins.h
-* PURPOSE	atmega pin assignments
-**********************************************************
-* MODIFICATIONS
-* 2015-12-05 - LHAYNIE - Initial Version
-**********************************************************
-Telemetry Tracking & Reporting System
-Copyright (C) 2020  Haynie Research & Development, LLC
+ **********************************************************
+ * CATEGORY	hardware
+ * GROUP		microcontroller
+ * AUTHOR	Lance Haynie <lance@hayniemail.com>
+ * DATE		2015-12-05
+ * FILE		atmega_pins.h
+ * PURPOSE	atmega pin assignments
+ **********************************************************
+ * MODIFICATIONS
+ * 2015-12-05 - LHAYNIE - Initial Version
+ **********************************************************
+ Telemetry Tracking & Reporting System
+ Copyright (C) 2020  Haynie Research & Development, LLC
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
+ You should have received a copy of the GNU General Public License along
+ with this program; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
 
 ATMEGA Non I/O pin definitions
 ATM01 = reset
@@ -38,18 +38,18 @@ ATM21 = analog reference
 ATM22 = GND
 
 //Digital pins
-ATM02 = 0 //RX
-ATM03 = 1 //TX
+ATM02 = 0//RX
+ATM03 = 1//TX
 ATM04 = 2
 ATM05 = 3
 ATM06 = 4
-ATM11 = 5 //PWM
-ATM12 = 6 //PWM
+ATM11 = 5//PWM
+ATM12 = 6//PWM
 ATM13 = 7
 ATM14 = 8
-ATM15 = 9 //PWM
-ATM16 = 10 //PWM
-ATM17 = 11 //PWM
+ATM15 = 9//PWM
+ATM16 = 10//PWM
+ATM17 = 11//PWM
 ATM18 = 12
 ATM19 = 13
 
