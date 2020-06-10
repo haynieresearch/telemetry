@@ -29,22 +29,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "telemetryTx.h"
 
-#define RFM95_CS 8
-#define RFM95_RST 4
-#define RFM95_INT 7
-#define RF95_FREQ 433.0
-
-#define CLIENT_ADDRESS 9273297286
-#define SERVER_ADDRESS 8962778729
-
-#define DHTPIN 2
-#define DHTTYPE DHT22
-
-static const int gpsRxPin = 4, gpsTxPin = 3;
-static const uint32_t gpsBaud = 9600;
-SoftwareSerial ss(gpsRxPin, gpsTxPin);
-TinyGPSPlus gps;
-
 char 	txStationID[11];
 int		txObsNumber = 0;
 char	txCurrentTime[6];
@@ -64,6 +48,12 @@ float   maxAltTracking = 0;
 float	maxSpeedTracking = 0;
 float	maxAccelTracking = 0;
 char 	strBuffer[15];
+
+static const int RXPin = 8, TXPin = 9;
+static const uint32_t GPSBaud = 9600;
+
+TinyGPSPlus gps;
+SoftwareSerial ss(RXPin, TXPin);
 
 void telemetryTx::adxlInit() {
 	ADXL345 adxl = ADXL345();
@@ -92,44 +82,12 @@ void telemetryTx::adxlInit() {
 	delay(500);
 }
 
-void telemetryTx::radioInit() {
-	/*
-	RH_RF95 driver;
-	RHReliableDatagram manager(driver, SERVER_ADDRESS);
-
-	pinMode(RFM95_RST, OUTPUT);
-	digitalWrite(RFM95_RST, HIGH);
-	RH_RF95 rf95(RFM95_CS, RFM95_INT);
-
-	if (!manager.init()) {
-		Serial.println("<RADIOINIT:FAILED>");
-	}
-
-	else {
-		driver.setTxPower(23, false);
-		driver.setFrequency(RF95_FREQ);
-		driver.setCADTimeout(250);
-	}
-	*/
-	delay(500);
-}
-
 void telemetryTx::gpsInit() {
-	delay(500);
-	ss.begin(gpsBaud);
-	const char *gpsStream = "$GPRMC,235316.000,A,4003.9040,N,10512.5792,W,0.09,144.75,141112,,*19\r\n";
-
-	while (*gpsStream)
-		    if (gps.encode(*gpsStream++)); // @suppress("Suspicious semicolon")
-	delay(500);
+	ss.begin(GPSBaud);
 }
 
-int telemetryTx::update() {
-	ADXL345 adxl = ADXL345();
-	DHT dht(DHTPIN, DHTTYPE);
-
-	strcpy(txStationID, "HRDUAV");
-	txObsNumber = txObsNumber + 1;
+int telemetryTx::gpsRead() {
+	gps.encode(ss.read());
 
 	strcpy (txCurrentTime, dtostrf(gps.time.hour(),2,0,strBuffer));
 	strcat (txCurrentTime, ":");
@@ -166,7 +124,7 @@ int telemetryTx::update() {
 	buf += itoa(gps.altitude.meters(), gpsAltitude, 10);
 	strcpy(txAltitude, gpsAltitude);
 
-	if (gps.altitude.meters() > maxAltTracking) {
+	if (gps.altitude.meters() >= maxAltTracking) {
 		maxAltTracking = gps.altitude.meters();
 		strcpy(txMaxAltitude, gpsAltitude);
 	}
@@ -176,10 +134,39 @@ int telemetryTx::update() {
 	buf += itoa(gps.speed.kmph()/3.6, gpsSpeed, 10);
 	strcpy(txSpeed, gpsSpeed);
 
-	if (gps.speed.kmph()/3.6 > maxAltTracking) {
+	if (gps.speed.kmph()/3.6 >= maxAltTracking) {
 		maxSpeedTracking = gps.speed.kmph()/3.6;
 		strcpy(txMaxSpeed, gpsSpeed);
 	}
+
+	return 0;
+}
+
+void telemetryTx::radioInit() {
+	/*
+	RH_RF95 driver;
+	RHReliableDatagram manager(driver, SERVER_ADDRESS);
+
+	pinMode(RFM95_RST, OUTPUT);
+	digitalWrite(RFM95_RST, HIGH);
+	RH_RF95 rf95(RFM95_CS, RFM95_INT);
+
+	if (!manager.init()) {
+		Serial.println("<RADIOINIT:FAILED>");
+	}
+
+	else {
+		driver.setTxPower(23, false);
+		driver.setFrequency(RF95_FREQ);
+		driver.setCADTimeout(250);
+	}
+	*/
+	delay(500);
+}
+
+void telemetryTx::update() {
+	ADXL345 adxl = ADXL345();
+	DHT dht(DHTPIN, DHTTYPE);
 
 	int x,y,z;
 	adxl.readAccel(&x, &y, &z);
@@ -188,7 +175,7 @@ int telemetryTx::update() {
 	if (y > maxAccel) maxAccel = y;
 	if (z > maxAccel) maxAccel = z;
 
-	buf = "";
+	String buf = "";
 	char accel[20];
 	buf += itoa(maxAccel/0.10197162129779, accel, 10);
 	strcpy(txAcceleration, accel);
@@ -207,11 +194,12 @@ int telemetryTx::update() {
 
 	strcpy(txBattery, dtostrf(battery.charge(),3,0,strBuffer));
 	charTrim.trim(txBattery);
-
-	return 0;
 }
 
 char* telemetryTx::format() {
+	strcpy(txStationID, "HRDUAV");
+	txObsNumber = txObsNumber + 1;
+
 	String buf = "";
 	char obs[20];
 	buf += itoa(txObsNumber, obs, 10);

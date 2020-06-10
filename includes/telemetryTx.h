@@ -30,6 +30,17 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #ifndef TELEMETRYTX_H
 #define TELEMETRYTX_H
 
+#define RFM95_CS 8
+#define RFM95_RST 4
+#define RFM95_INT 7
+#define RF95_FREQ 433.0
+
+#define CLIENT_ADDRESS 9273297286
+#define SERVER_ADDRESS 8962778729
+
+#define DHTPIN 2
+#define DHTTYPE DHT22
+
 #include "Arduino.h"
 #include "SoftwareSerial.h"
 #include "serialComm.h"
@@ -48,12 +59,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 class telemetryTx {
 	public:
-		int update();
+		void update();
 		char* format();
 		int tx(char* msg);
 		void gpsInit();
 		void radioInit();
 		void adxlInit();
+		int gpsRead();
 
 	private:
 };

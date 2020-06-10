@@ -35,6 +35,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 //**********************************************************
 // MAIN PROGRAM
 //**********************************************************
+unsigned long previousTime = 0;
+const long interval = 5000;
 
 //program setup
 void setup() {
@@ -46,24 +48,14 @@ void setup() {
 
 //program loop
 void loop() {
-	int updateResult = telemetryTx.update();
-
-	if (updateResult == 0) {
-		Serial.println("<UPDATE:SUCCESS>\n");
-		int txResult = telemetryTx.tx(telemetryTx.format());
-
-		if (txResult == 0) {
-			Serial.println("<TXRESULT:SUCCESS>\n");
-		}
-
-		else {
-			Serial.println("<TXRESULT:FAILURE>\n");
-		}
+	int gpsRead = telemetryTx.gpsRead();
+	if (gpsRead == 0) {
+		telemetryTx.update();
 	}
 
-	else {
-		Serial.println("<UPDATE:FAILURE>\n");
+	unsigned long currentTime = millis();
+	if (currentTime - previousTime >= interval) {
+		previousTime = currentTime;
+		telemetryTx.tx(telemetryTx.format());
 	}
-
-	delay(5000);
 }

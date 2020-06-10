@@ -37,5 +37,5 @@ void serialComm::init(String pgm) {
 	Serial.println(pgmco);
 	Serial.println("Initializing " + pgm + " Console");
 	Serial.println("Version: " + pgmver + "\n");
-	delay(1000);
+	delay(500);
 }
