@@ -46,8 +46,21 @@ void setup() {
 
 //program loop
 void loop() {
-	telemetryTx.gpsRead(1000);
-	telemetryTx.gpsParse();
-	telemetryTx.update();
-	telemetryTx.tx(telemetryTx.format());
+	int gpsRead = telemetryTx.gpsRead(1000);
+
+	if (gpsRead == 0) {
+		int gpsParse = telemetryTx.gpsParse();
+		if (gpsParse == 0) {
+			int update = telemetryTx.update();
+			if (update == 0) {
+				telemetryTx.tx(telemetryTx.format());
+			} else {
+				Serial.println("ERROR: Update process failed");
+			}
+		} else {
+			Serial.println("ERROR: Unable to parse GPS data");
+		}
+	} else {
+		Serial.println("ERROR: Unable to read GPS");
+	}
 }

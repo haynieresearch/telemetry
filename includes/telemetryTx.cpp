@@ -79,24 +79,23 @@ void telemetryTx::adxlInit() {
 	adxl.FreeFallINT(0);
 	adxl.doubleTapINT(0);
 	adxl.singleTapINT(0);
-	delay(500);
 }
 
 void telemetryTx::gpsInit() {
 	ss.begin(GPSBaud);
 }
 
-void telemetryTx::gpsRead(unsigned long ms) {
+int telemetryTx::gpsRead(unsigned long ms) {
 	unsigned long start = millis();
 	do {
 		while (ss.available())
 			gps.encode(ss.read());
 	} while (millis() - start < ms);
+
+	return 0;
 }
 
-void telemetryTx::gpsParse() {
-	//gps.encode(ss.read());
-
+int telemetryTx::gpsParse() {
 	strcpy(txCurrentTime, dtostrf(gps.time.hour(), 2, 0, strBuffer));
 	strcat(txCurrentTime, ":");
 	strcat(txCurrentTime, dtostrf(gps.time.minute(), 2, 0, strBuffer));
@@ -144,6 +143,8 @@ void telemetryTx::gpsParse() {
 		strcpy(txMaxSpeed, dtostrf(gps.speed.mps(), 10, 0, strBuffer));
 		charTrim.trim(txMaxSpeed);
 	}
+
+	return 0;
 }
 
 void telemetryTx::radioInit() {
@@ -165,10 +166,9 @@ void telemetryTx::radioInit() {
 	 driver.setCADTimeout(250);
 	 }
 	 */
-	delay(500);
 }
 
-void telemetryTx::update() {
+int telemetryTx::update() {
 	ADXL345 adxl = ADXL345();
 	DHT dht(DHTPIN, DHTTYPE);
 
@@ -200,6 +200,8 @@ void telemetryTx::update() {
 
 	strcpy(txBattery, dtostrf(battery.charge(), 3, 0, strBuffer));
 	charTrim.trim(txBattery);
+
+	return 0;
 }
 
 char* telemetryTx::format() {
@@ -292,7 +294,7 @@ char* telemetryTx::format() {
 
 	Serial.print("<BATTERY:");
 	Serial.print(txTemp);
-	Serial.println(">\n");
+	Serial.println(">");
 
 	return txData;
 }
@@ -304,7 +306,7 @@ int telemetryTx::tx(char *msg) {
 
 	Serial.print("<TXDATA:");
 	Serial.print(msg);
-	Serial.println(">");
+	Serial.println(">\n");
 
 	/*
 

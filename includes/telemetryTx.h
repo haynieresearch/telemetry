@@ -59,15 +59,14 @@
 
 class telemetryTx {
 public:
-	void update();
+	int update();
 	char* format();
 	int tx(char *msg);
 	void gpsInit();
-	void gpsRead(unsigned long ms);
-	void gpsParse();
+	int gpsRead(unsigned long ms);
+	int gpsParse();
 	void radioInit();
 	void adxlInit();
-
 
 private:
 };
