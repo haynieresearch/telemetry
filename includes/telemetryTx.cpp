@@ -47,7 +47,7 @@ char txData[200];
 float maxAltTracking = 0;
 float maxSpeedTracking = 0;
 float maxAccelTracking = 0;
-char strBuffer[15];
+char strBuffer[20];
 
 static const int RXPin = 8, TXPin = 9;
 static const uint32_t GPSBaud = 9600;
@@ -86,8 +86,16 @@ void telemetryTx::gpsInit() {
 	ss.begin(GPSBaud);
 }
 
-int telemetryTx::gpsRead() {
-	gps.encode(ss.read());
+void telemetryTx::gpsRead(unsigned long ms) {
+	unsigned long start = millis();
+	do {
+		while (ss.available())
+			gps.encode(ss.read());
+	} while (millis() - start < ms);
+}
+
+void telemetryTx::gpsParse() {
+	//gps.encode(ss.read());
 
 	strcpy(txCurrentTime, dtostrf(gps.time.hour(), 2, 0, strBuffer));
 	strcat(txCurrentTime, ":");
@@ -136,8 +144,6 @@ int telemetryTx::gpsRead() {
 		strcpy(txMaxSpeed, dtostrf(gps.speed.mps(), 10, 0, strBuffer));
 		charTrim.trim(txMaxSpeed);
 	}
-
-	return 0;
 }
 
 void telemetryTx::radioInit() {

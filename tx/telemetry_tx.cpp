@@ -35,8 +35,6 @@
 //**********************************************************
 // MAIN PROGRAM
 //**********************************************************
-unsigned long previousTime = 0;
-const long interval = 1000;
 
 //program setup
 void setup() {
@@ -48,14 +46,8 @@ void setup() {
 
 //program loop
 void loop() {
-	int gpsRead = telemetryTx.gpsRead();
-	if (gpsRead == 0) {
-		telemetryTx.update();
-	}
-
-	unsigned long currentTime = millis();
-	if (currentTime - previousTime >= interval) {
-		previousTime = currentTime;
-		telemetryTx.tx(telemetryTx.format());
-	}
+	telemetryTx.gpsRead(1000);
+	telemetryTx.gpsParse();
+	telemetryTx.update();
+	telemetryTx.tx(telemetryTx.format());
 }

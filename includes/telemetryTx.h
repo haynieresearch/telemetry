@@ -63,9 +63,11 @@ public:
 	char* format();
 	int tx(char *msg);
 	void gpsInit();
+	void gpsRead(unsigned long ms);
+	void gpsParse();
 	void radioInit();
 	void adxlInit();
-	int gpsRead();
+
 
 private:
 };
