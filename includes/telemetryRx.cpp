@@ -103,8 +103,7 @@ void telemetryRx::recieve() {
 }
 
 void telemetryRx::update() {
-	char rxData[100] =
-			"HRDUAV,5,16:13,2020/06/08,40.065067,-105.209660,297,301,49,52,63,97,49,95";
+	char rxData[100] = "HRDUAV,8,20:45,2020/6/10,37.137978,-113.648900,823,823,0,0,0,0,22,100";
 
 	Serial.print("<RXDATA:");
 	Serial.print(rxData);

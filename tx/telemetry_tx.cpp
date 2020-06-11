@@ -36,7 +36,7 @@
 // MAIN PROGRAM
 //**********************************************************
 unsigned long previousTime = 0;
-const long interval = 5000;
+const long interval = 1000;
 
 //program setup
 void setup() {

@@ -35,12 +35,12 @@ char txCurrentTime[6];
 char txCurrentDate[11];
 char txLatitude[15];
 char txLongitude[15];
-char txAltitude[8];
-char txMaxAltitude[8];
-char txSpeed[8];
-char txMaxSpeed[8];
-char txAcceleration[8];
-char txMaxAcceleration[8];
+char txAltitude[15];
+char txMaxAltitude[15];
+char txSpeed[15];
+char txMaxSpeed[15];
+char txAcceleration[15];
+char txMaxAcceleration[15];
 char txTemp[4];
 char txBattery[4];
 char txData[200];
@@ -119,24 +119,22 @@ int telemetryTx::gpsRead() {
 	strcpy(txLongitude, dtostrf(gps.location.lng(), 11, 6, strBuffer));
 	charTrim.trim(txLongitude);
 
-	String buf = "";
-	char gpsAltitude[20];
-	buf += itoa(gps.altitude.meters(), gpsAltitude, 10);
-	strcpy(txAltitude, gpsAltitude);
+	strcpy(txAltitude, dtostrf(gps.altitude.meters(), 10, 0, strBuffer));
+	charTrim.trim(txAltitude);
+
+	strcpy(txSpeed, dtostrf(gps.speed.mps(), 10, 0, strBuffer));
+	charTrim.trim(txSpeed);
 
 	if (gps.altitude.meters() >= maxAltTracking) {
 		maxAltTracking = gps.altitude.meters();
-		strcpy(txMaxAltitude, gpsAltitude);
+		strcpy(txMaxAltitude, dtostrf(gps.altitude.meters(), 10, 0, strBuffer));
+		charTrim.trim(txMaxAltitude);
 	}
 
-	buf = "";
-	char gpsSpeed[20];
-	buf += itoa(gps.speed.kmph() / 3.6, gpsSpeed, 10);
-	strcpy(txSpeed, gpsSpeed);
-
-	if (gps.speed.kmph() / 3.6 >= maxAltTracking) {
-		maxSpeedTracking = gps.speed.kmph() / 3.6;
-		strcpy(txMaxSpeed, gpsSpeed);
+	if (gps.speed.mps() >= maxSpeedTracking) {
+		maxSpeedTracking = gps.speed.mps();
+		strcpy(txMaxSpeed, dtostrf(gps.speed.mps(), 10, 0, strBuffer));
+		charTrim.trim(txMaxSpeed);
 	}
 
 	return 0;
@@ -331,7 +329,7 @@ int telemetryTx::tx(char *msg) {
 
 	 */
 
-	rtty.attach(12);
+	rtty.attach(10);
 	rtty.tx(msg);
 
 	return 0;
