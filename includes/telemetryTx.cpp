@@ -335,10 +335,8 @@ int telemetryTx::tx(char *msg) {
 	 else
 	 Serial.println("sendtoWait failed");
 
-	 */
-
 	rtty.attach(10);
-	rtty.tx(msg);
+	rtty.tx(msg); */
 
 	return 0;
 }

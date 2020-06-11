@@ -33,7 +33,7 @@
 
 #include "rtty.h"
 
-#define BAUD_RATE 10 // 100 baud
+#define BAUD_RATE 10 // 100 baud (1000/baud)
 #define MARK 1200 //1200hz
 #define SPACE MARK-850 // 850hz shift
 
