@@ -240,31 +240,31 @@ char* telemetryTx::format() {
 	strcat(txData, ",");
 	strcat(txData, txBattery);
 
-	Serial.print("<STATIONID:");
+	Serial.print("<STATID:");
 	Serial.print(txStationID);
 	Serial.println(">");
 
-	Serial.print("<OBS:");
+	Serial.print("<OBSNUM:");
 	Serial.print(obs);
 	Serial.println(">");
 
-	Serial.print("<CTIME:");
+	Serial.print("<C_TIME:");
 	Serial.print(txCurrentTime);
 	Serial.println(">");
 
-	Serial.print("<CDATE:");
+	Serial.print("<C_DATE:");
 	Serial.print(txCurrentDate);
 	Serial.println(">");
 
-	Serial.print("<LAT:");
+	Serial.print("<LOCLAT:");
 	Serial.print(txLatitude);
 	Serial.println(">");
 
-	Serial.print("<LONG:");
+	Serial.print("<LOCLNG:");
 	Serial.print(txLongitude);
 	Serial.println(">");
 
-	Serial.print("<ALT:");
+	Serial.print("<CURALT:");
 	Serial.print(txAltitude);
 	Serial.println(">");
 
@@ -272,27 +272,27 @@ char* telemetryTx::format() {
 	Serial.print(txMaxAltitude);
 	Serial.println(">");
 
-	Serial.print("<SPEED:");
+	Serial.print("<CURSPD:");
 	Serial.print(txSpeed);
 	Serial.println(">");
 
-	Serial.print("<MAXSPEED:");
+	Serial.print("<MAXSPD:");
 	Serial.print(txMaxSpeed);
 	Serial.println(">");
 
-	Serial.print("<ACCEL:");
+	Serial.print("<CURACL:");
 	Serial.print(txAcceleration);
 	Serial.println(">");
 
-	Serial.print("<MAXACCEL:");
+	Serial.print("<MAXACL:");
 	Serial.print(txMaxAcceleration);
 	Serial.println(">");
 
-	Serial.print("<TEMP:");
+	Serial.print("<CURTMP:");
 	Serial.print(txTemp);
 	Serial.println(">");
 
-	Serial.print("<BATTERY:");
+	Serial.print("<CURBAT:");
 	Serial.print(txTemp);
 	Serial.println(">");
 
