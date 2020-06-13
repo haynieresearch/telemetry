@@ -1,11 +1,15 @@
 ﻿Imports System
 Imports System.IO.Ports
+Imports System.Windows.Forms
+Imports System.Security.Permissions
 
+<PermissionSet(SecurityAction.Demand, Name:="FullTrust")>
+<System.Runtime.InteropServices.ComVisible(True)>
 Public Class Telemetry
     Dim comPort As String
     Dim receivedData As String = ""
 
-    Private Sub GasMonitor_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub Telemetry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         sysTimer.Enabled = False
         comPort = ""
         For Each sp As String In My.Computer.Ports.SerialPortNames
@@ -23,7 +27,7 @@ Public Class Telemetry
         If (comPort <> "") Then
             sysSerialPort.Close()
             sysSerialPort.PortName = comPort
-            sysSerialPort.BaudRate = 9600
+            sysSerialPort.BaudRate = 115200
             sysSerialPort.DataBits = 8
             sysSerialPort.Parity = Parity.None
             sysSerialPort.StopBits = StopBits.One
@@ -47,6 +51,10 @@ Public Class Telemetry
         Else
             MsgBox("You are not currently connected.", MsgBoxStyle.Exclamation)
         End If
+        comPort = ""
+        For Each sp As String In My.Computer.Ports.SerialPortNames
+            commPortComboBox.Items.Add(sp)
+        Next
     End Sub
 
     Private Sub sysTimer_Tick(sender As Object, e As EventArgs) Handles sysTimer.Tick
@@ -77,8 +85,6 @@ Public Class Telemetry
     End Function
 
     Function parseData()
-
-        ' uses the global variable receivedData
         Dim pos1 As Integer
         Dim pos2 As Integer
         Dim length As Integer
@@ -141,61 +147,6 @@ Public Class Telemetry
                 End If
             End If
         End While
+        Return 0
     End Function
-
-    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles alt.TextChanged
-
-    End Sub
-
-    Private Sub Label2_Click(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub Label12_Click(sender As Object, e As EventArgs) Handles Label12.Click
-
-    End Sub
-
-    Private Sub stationid_TextChanged(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub lat_TextChanged(sender As Object, e As EventArgs) Handles lat.TextChanged
-
-    End Sub
-
-    Private Sub GroupBox1_Enter(sender As Object, e As EventArgs) Handles GroupBox1.Enter
-
-    End Sub
-
-    Private Sub Label8_Click(sender As Object, e As EventArgs) Handles Label8.Click
-
-    End Sub
-
-    Private Sub Label9_Click(sender As Object, e As EventArgs) Handles Label9.Click
-
-    End Sub
-
-    Private Sub lng_TextChanged(sender As Object, e As EventArgs) Handles lng.TextChanged
-
-    End Sub
-
-    Private Sub speed_TextChanged(sender As Object, e As EventArgs) Handles speed.TextChanged
-
-    End Sub
-
-    Private Sub Label15_Click(sender As Object, e As EventArgs) Handles Label15.Click
-
-    End Sub
-
-    Private Sub GroupBox3_Enter(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub ToolStripStatusLabel4_Click(sender As Object, e As EventArgs) Handles stationid.Click
-
-    End Sub
-
-    Private Sub statusStrip_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles statusStrip.ItemClicked
-
-    End Sub
 End Class

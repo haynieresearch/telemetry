@@ -34,9 +34,6 @@
 #define RFM95_INT 7
 #define RF95_FREQ 433.0
 
-#define CLIENT_ADDRESS 9273297286
-#define SERVER_ADDRESS 8962778729
-
 char rxStationID[11];
 char rxObsNumber[5];
 char rxCurrentTime[6];
@@ -51,64 +48,53 @@ char rxAcceleration[8];
 char rxMaxAcceleration[8];
 char rxTemp[4];
 char rxBattery[4];
+char rxData[100];
+
+// Singleton instance of the radio driver
+RH_RF95 rf95rx(RFM95_CS, RFM95_INT);
 
 void telemetryRx::radioInit() {
-	delay(500);
+	pinMode(RFM95_RST, OUTPUT);
+	digitalWrite(RFM95_RST, HIGH);
 
-	/*
-	 RH_RF95 driver;
-	 RHReliableDatagram manager(driver, SERVER_ADDRESS);
+	delay(100);
 
-	 pinMode(RFM95_RST, OUTPUT);
-	 digitalWrite(RFM95_RST, HIGH);
-	 RH_RF95 rf95(RFM95_CS, RFM95_INT);
+	// manual reset
+	digitalWrite(RFM95_RST, LOW);
+	delay(10);
+	digitalWrite(RFM95_RST, HIGH);
+	delay(10);
 
-	 if (!manager.init()) {
-	 Serial.println("<RADIOINIT:FAILED>");
-	 }
+	while (!rf95rx.init()) {
+		Serial.println("Radio init failed!");
+		while (1)
+			;
+	}
+	Serial.println("Radio init OK!");
 
-	 else {
-	 driver.setTxPower(23, false);
-	 driver.setFrequency(RF95_FREQ);
-	 driver.setCADTimeout(250);
-	 }
-	 */
+	// Defaults after init are 434.0MHz, modulation GFSK_Rb250Fd250, +13dbM
+	if (!rf95rx.setFrequency(RF95_FREQ)) {
+		Serial.println("Radio set frequency failed!");
+		while (1)
+			;
+	}
+	rf95rx.setTxPower(23, false);
 }
 
 void telemetryRx::recieve() {
-	/*
-	 RH_RF95 driver;
-	 RHReliableDatagram manager(driver, CLIENT_ADDRESS);
-	 RH_RF95 rf95(RFM95_CS, RFM95_INT);
+	if (rf95rx.available()) {
+		uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
+		uint8_t len = sizeof(buf);
 
-	 uint8_t data[] = "And hello back to you";
-	 uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
-
-	 if (manager.available()) {
-	 uint8_t len = sizeof(buf);
-	 uint8_t from;
-
-	 if (manager.recvfromAck(buf, &len, &from)) {
-	 Serial.print("got request from : 0x");
-	 Serial.print(from, HEX);
-	 Serial.print(": ");
-	 Serial.println((char*)buf);
-
-	 // Send a reply back to the originator client
-	 if (!manager.sendtoWait(data, sizeof(data), from))
-	 Serial.println("sendtoWait failed");
-	 }
-	 }
-	 */
+		if (rf95rx.recv(buf, &len)) {
+			strcpy(rxData, buf);
+		} else {
+			Serial.println("Receive failed");
+		}
+	}
 }
 
 void telemetryRx::update() {
-	char rxData[100] = "HRDUAV,8,20:45,2020/6/10,37.137978,-113.648900,823,823,0,0,0,0,22,100";
-
-	Serial.print("<RXDATA:");
-	Serial.print(rxData);
-	Serial.println(">");
-
 	strcpy(rxStationID, strtok(rxData, ","));
 	strcpy(rxObsNumber, strtok(NULL, ","));
 	strcpy(rxCurrentTime, strtok(NULL, ","));
@@ -126,31 +112,31 @@ void telemetryRx::update() {
 	strcpy(rxBattery, strtok(NULL, ","));
 	strcat(rxBattery, "%");
 
-	Serial.print("<STATIONID:");
+	Serial.print("<STATID:");
 	Serial.print(rxStationID);
 	Serial.println(">");
 
-	Serial.print("<OBS:");
+	Serial.print("<OBSNUM:");
 	Serial.print(rxObsNumber);
 	Serial.println(">");
 
-	Serial.print("<CTIME:");
+	Serial.print("<C_TIME:");
 	Serial.print(rxCurrentTime);
 	Serial.println(">");
 
-	Serial.print("<CDATE:");
+	Serial.print("<C_DATE:");
 	Serial.print(rxCurrentDate);
 	Serial.println(">");
 
-	Serial.print("<LAT:");
+	Serial.print("<LOCLAT:");
 	Serial.print(rxLatitude);
 	Serial.println(">");
 
-	Serial.print("<LONG:");
+	Serial.print("<LOCLNG:");
 	Serial.print(rxLongitude);
 	Serial.println(">");
 
-	Serial.print("<ALT:");
+	Serial.print("<CURALT:");
 	Serial.print(rxAltitude);
 	Serial.println(">");
 
@@ -158,29 +144,29 @@ void telemetryRx::update() {
 	Serial.print(rxMaxAltitude);
 	Serial.println(">");
 
-	Serial.print("<SPEED:");
+	Serial.print("<CURSPD:");
 	Serial.print(rxSpeed);
 	Serial.println(">");
 
-	Serial.print("<MAXSPEED:");
+	Serial.print("<MAXSPD:");
 	Serial.print(rxMaxSpeed);
 	Serial.println(">");
 
-	Serial.print("<ACCEL:");
+	Serial.print("<CURACL:");
 	Serial.print(rxAcceleration);
 	Serial.println(">");
 
-	Serial.print("<MAXACCEL:");
+	Serial.print("<MAXACL:");
 	Serial.print(rxMaxAcceleration);
 	Serial.println(">");
 
-	Serial.print("<TEMP:");
+	Serial.print("<CURTMP:");
 	Serial.print(rxTemp);
 	Serial.println(">");
 
-	Serial.print("<BATTERY:");
+	Serial.print("<CURBAT:");
 	Serial.print(rxTemp);
-	Serial.println(">\n");
+	Serial.println(">");
 }
 
 void telemetryRx::header1() {

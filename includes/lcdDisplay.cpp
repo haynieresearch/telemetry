@@ -29,7 +29,7 @@
 
 #include "lcdDisplay.h"
 
-const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
+const int rs = 18, en = 19, d4 = 20, d5 = 21, d6 = 22, d7 = 23;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 byte squareSymbol[] = {

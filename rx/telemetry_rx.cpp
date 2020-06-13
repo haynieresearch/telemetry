@@ -70,6 +70,7 @@ void loop() {
 
 	else if (((currentTime - previousTime) >= 10000) && s2 == 0) {
 		latestCommand = millis();
+		telemetryRx.update();
 		telemetryRx.header2();
 		telemetryRx.altitude();
 		s2 = 1;
@@ -77,6 +78,7 @@ void loop() {
 
 	else if (((currentTime - previousTime) >= 15000) && s3 == 0) {
 		latestCommand = millis();
+		telemetryRx.update();
 		telemetryRx.header1();
 		telemetryRx.speed();
 		s3 = 1;

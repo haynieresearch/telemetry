@@ -29,6 +29,11 @@
 
 #include "telemetryTx.h"
 
+#define RFM95_CS 8
+#define RFM95_RST 4
+#define RFM95_INT 7
+#define RF95_FREQ 433.0
+
 char txStationID[11];
 int txObsNumber = 0;
 char txCurrentTime[6];
@@ -49,13 +54,14 @@ float maxSpeedTracking = 0;
 float maxAccelTracking = 0;
 char strBuffer[20];
 
-static const int RXPin = 8, TXPin = 9;
+static const int RXPin = 11, TXPin = 10;
 static const uint32_t GPSBaud = 9600;
 
 TinyGPSPlus gps;
 SoftwareSerial ss(RXPin, TXPin);
 
 void telemetryTx::adxlInit() {
+	Serial.println("Accelerometer Initializing...");
 	ADXL345 adxl = ADXL345();
 
 	adxl.powerOn();
@@ -79,10 +85,13 @@ void telemetryTx::adxlInit() {
 	adxl.FreeFallINT(0);
 	adxl.doubleTapINT(0);
 	adxl.singleTapINT(0);
+	delay(500);
 }
 
 void telemetryTx::gpsInit() {
 	ss.begin(GPSBaud);
+	Serial.println("GPS Initializing...");
+	delay(500);
 }
 
 int telemetryTx::gpsRead(unsigned long ms) {
@@ -147,25 +156,34 @@ int telemetryTx::gpsParse() {
 	return 0;
 }
 
+// Singleton instance of the radio driver
+RH_RF95 rf95tx(RFM95_CS, RFM95_INT);
+
 void telemetryTx::radioInit() {
-	/*
-	 RH_RF95 driver;
-	 RHReliableDatagram manager(driver, SERVER_ADDRESS);
+	Serial.println("Radio Initializing...");
+	pinMode(RFM95_RST, OUTPUT);
+	digitalWrite(RFM95_RST, HIGH);
 
-	 pinMode(RFM95_RST, OUTPUT);
-	 digitalWrite(RFM95_RST, HIGH);
-	 RH_RF95 rf95(RFM95_CS, RFM95_INT);
+	// manual reset
+	digitalWrite(RFM95_RST, LOW);
+	delay(10);
+	digitalWrite(RFM95_RST, HIGH);
+	delay(10);
 
-	 if (!manager.init()) {
-	 Serial.println("<RADIOINIT:FAILED>");
-	 }
+	while (!rf95tx.init()) {
+		Serial.println("Radio Initialization Failed!");
+		while (1)
+			;
+	}
+	Serial.println("Radio Initialization Success!");
 
-	 else {
-	 driver.setTxPower(23, false);
-	 driver.setFrequency(RF95_FREQ);
-	 driver.setCADTimeout(250);
-	 }
-	 */
+	if (!rf95tx.setFrequency(RF95_FREQ)) {
+		Serial.println("Radio Failed to set Frequency!");
+		while (1)
+			;
+	}
+	rf95tx.setTxPower(23, false);
+	delay(500);
 }
 
 int telemetryTx::update() {
@@ -209,8 +227,9 @@ char* telemetryTx::format() {
 	txObsNumber = txObsNumber + 1;
 
 	String buf = "";
-	char obs[20];
+	char obs[5];
 	buf += itoa(txObsNumber, obs, 10);
+	charTrim.trim(obs);
 
 	strcpy(txData, txStationID);
 	strcat(txData, ",");
@@ -240,103 +259,20 @@ char* telemetryTx::format() {
 	strcat(txData, ",");
 	strcat(txData, txBattery);
 
-	Serial.print("<STATID:");
-	Serial.print(txStationID);
-	Serial.println(">");
-
-	Serial.print("<OBSNUM:");
-	Serial.print(obs);
-	Serial.println(">");
-
-	Serial.print("<C_TIME:");
-	Serial.print(txCurrentTime);
-	Serial.println(">");
-
-	Serial.print("<C_DATE:");
-	Serial.print(txCurrentDate);
-	Serial.println(">");
-
-	Serial.print("<LOCLAT:");
-	Serial.print(txLatitude);
-	Serial.println(">");
-
-	Serial.print("<LOCLNG:");
-	Serial.print(txLongitude);
-	Serial.println(">");
-
-	Serial.print("<CURALT:");
-	Serial.print(txAltitude);
-	Serial.println(">");
-
-	Serial.print("<MAXALT:");
-	Serial.print(txMaxAltitude);
-	Serial.println(">");
-
-	Serial.print("<CURSPD:");
-	Serial.print(txSpeed);
-	Serial.println(">");
-
-	Serial.print("<MAXSPD:");
-	Serial.print(txMaxSpeed);
-	Serial.println(">");
-
-	Serial.print("<CURACL:");
-	Serial.print(txAcceleration);
-	Serial.println(">");
-
-	Serial.print("<MAXACL:");
-	Serial.print(txMaxAcceleration);
-	Serial.println(">");
-
-	Serial.print("<CURTMP:");
-	Serial.print(txTemp);
-	Serial.println(">");
-
-	Serial.print("<CURBAT:");
-	Serial.print(txTemp);
+	delay(100);
+	Serial.print("<TXDATA:");
+	Serial.print(txData);
 	Serial.println(">");
 
 	return txData;
 }
 
 int telemetryTx::tx(char *msg) {
-	//RH_RF95 driver;
-	//RHReliableDatagram manager(driver, CLIENT_ADDRESS);
-	//RH_RF95 rf95(RFM95_CS, RFM95_INT);
+	delay(10);
+	rf95tx.send((uint8_t*) msg, 150);
 
-	Serial.print("<TXDATA:");
-	Serial.print(msg);
-	Serial.println(">\n");
-
-	/*
-
-	 Serial.println("Sending to rf95_reliable_datagram_server");
-
-	 uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
-
-	 // Send a message to manager_server
-	 if (manager.sendtoWait(msg, sizeof(msg), SERVER_ADDRESS)) {
-	 // Now wait for a reply from the server
-	 uint8_t len = sizeof(buf);
-	 uint8_t from;
-
-	 if (manager.recvfromAckTimeout(buf, &len, 2000, &from)) {
-	 Serial.print("got reply from : 0x");
-	 Serial.print(from, HEX);
-	 Serial.print(": ");
-	 Serial.println((char*)buf);
-	 }
-
-	 else {
-	 Serial.println("No reply, is rf95_reliable_datagram_server running?");
-	 }
-	 }
-
-	 else
-	 Serial.println("sendtoWait failed");
-
-	rtty.attach(10);
-	rtty.tx(msg); */
+	//rtty.attach(10);
+	//rtty.tx(msg); */
 
 	return 0;
 }

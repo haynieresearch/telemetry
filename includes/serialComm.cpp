@@ -33,8 +33,10 @@ const String pgmco = "Haynie Research & Development, LLC";
 const String pgmver = "0.0.1";
 
 void serialComm::init(String pgm) {
-	Serial.begin(9600);
+	delay(500);
+	Serial.begin(115200);
 	Serial.println(pgmco);
 	Serial.println("Initializing " + pgm + " Console");
-	Serial.println("Version: " + pgmver + "\n");
+	Serial.println("Version: " + pgmver);
+	delay(500);
 }

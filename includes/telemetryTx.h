@@ -67,6 +67,7 @@ public:
 	int gpsParse();
 	void radioInit();
 	void adxlInit();
+	void printData();
 
 private:
 };
