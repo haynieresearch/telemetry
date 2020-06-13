@@ -10,4 +10,5 @@ P.S.: I will try to keep this repo error free when committing, but no promises. 
 * rx - Reciever
 * tx - Transmitter
 * includes - Various includes for rx/tx
-* telemetry-reciever - MacOSX app for viewing telemetry data
+* reciever-app - Visual Basic app for viewing telemetry data
+* schematic - Fritzing schematics 
