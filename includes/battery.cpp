@@ -30,14 +30,13 @@
 #include "battery.h"
 
 int battery::charge() {
-	float voltage = analogRead(9);
-
-	voltage *= 2;
-	voltage *= 3.3;
-	voltage /= 1024;
+	float voltage = analogRead(A0);
+	int value = 0;
+	value = analogRead(A0);
+	voltage = value * 5.0 / 1023;
 
 	int percentCharge = 0;
-	if (voltage == 4.2)
+	if (voltage >= 4.2)
 		percentCharge = 100;
 	if (voltage >= 4.15 && voltage < 4.2)
 		percentCharge = 95;

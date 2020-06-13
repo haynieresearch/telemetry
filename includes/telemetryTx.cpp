@@ -59,11 +59,11 @@ static const uint32_t GPSBaud = 9600;
 
 TinyGPSPlus gps;
 SoftwareSerial ss(RXPin, TXPin);
+RH_RF95 rf95tx(RFM95_CS, RFM95_INT);
+DHT dht(DHTPIN, DHTTYPE);
 
 void telemetryTx::adxlInit() {
-	Serial.println("Accelerometer Initializing...");
 	ADXL345 adxl = ADXL345();
-
 	adxl.powerOn();
 	adxl.setRangeSetting(16);
 	adxl.setSpiBit(0);
@@ -80,17 +80,16 @@ void telemetryTx::adxlInit() {
 	adxl.setFreeFallThreshold(7);
 	adxl.setFreeFallDuration(30);
 
-	adxl.InactivityINT(0);
-	adxl.ActivityINT(0);
-	adxl.FreeFallINT(0);
-	adxl.doubleTapINT(0);
-	adxl.singleTapINT(0);
+	adxl.InactivityINT(1);
+	adxl.ActivityINT(1);
+	adxl.FreeFallINT(1);
+	adxl.doubleTapINT(1);
+	adxl.singleTapINT(1);
 	delay(500);
 }
 
 void telemetryTx::gpsInit() {
 	ss.begin(GPSBaud);
-	Serial.println("GPS Initializing...");
 	delay(500);
 }
 
@@ -156,11 +155,7 @@ int telemetryTx::gpsParse() {
 	return 0;
 }
 
-// Singleton instance of the radio driver
-RH_RF95 rf95tx(RFM95_CS, RFM95_INT);
-
 void telemetryTx::radioInit() {
-	Serial.println("Radio Initializing...");
 	pinMode(RFM95_RST, OUTPUT);
 	digitalWrite(RFM95_RST, HIGH);
 
@@ -175,7 +170,6 @@ void telemetryTx::radioInit() {
 		while (1)
 			;
 	}
-	Serial.println("Radio Initialization Success!");
 
 	if (!rf95tx.setFrequency(RF95_FREQ)) {
 		Serial.println("Radio Failed to set Frequency!");
@@ -188,24 +182,23 @@ void telemetryTx::radioInit() {
 
 int telemetryTx::update() {
 	ADXL345 adxl = ADXL345();
-	DHT dht(DHTPIN, DHTTYPE);
-
 	int x, y, z;
 	adxl.readAccel(&x, &y, &z);
 
-	int maxAccel = x;
-	if (y > maxAccel)
-		maxAccel = y;
-	if (z > maxAccel)
-		maxAccel = z;
+	int maxAccel = (x - 27);
+	if ((y - 27) > maxAccel)
+		maxAccel = (y - 27);
+	if ((z - 27) > maxAccel)
+		maxAccel = (z -27) ;
 
 	String buf = "";
 	char accel[20];
-	buf += itoa(maxAccel / 0.10197162129779, accel, 10);
+	buf += itoa(abs(maxAccel / 0.10197162129779), accel, 10);
 	strcpy(txAcceleration, accel);
 
-	if (maxAccel / 0.10197162129779 > maxAccelTracking) {
-		maxAccelTracking = maxAccel / 0.10197162129779;
+	strcpy(txMaxAcceleration, accel);
+	if (abs(maxAccel / 0.10197162129779) > maxAccelTracking) {
+		maxAccelTracking = abs(maxAccel / 0.10197162129779);
 		strcpy(txMaxAcceleration, accel);
 	}
 
@@ -271,8 +264,8 @@ int telemetryTx::tx(char *msg) {
 	delay(10);
 	rf95tx.send((uint8_t*) msg, 150);
 
-	//rtty.attach(10);
-	//rtty.tx(msg); */
+	//rtty.attach(12);
+	//rtty.tx(msg);
 
 	return 0;
 }

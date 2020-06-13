@@ -108,9 +108,7 @@ void telemetryRx::update() {
 	strcpy(rxAcceleration, strtok(NULL, ","));
 	strcpy(rxMaxAcceleration, strtok(NULL, ","));
 	strcpy(rxTemp, strtok(NULL, ","));
-	strcat(rxTemp, "C");
 	strcpy(rxBattery, strtok(NULL, ","));
-	strcat(rxBattery, "%");
 
 	Serial.print("<STATID:");
 	Serial.print(rxStationID);
@@ -165,7 +163,7 @@ void telemetryRx::update() {
 	Serial.println(">");
 
 	Serial.print("<CURBAT:");
-	Serial.print(rxTemp);
+	Serial.print(rxBattery);
 	Serial.println(">");
 }
 

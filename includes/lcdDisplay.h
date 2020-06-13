@@ -32,6 +32,7 @@
 
 #include "Arduino.h"
 #include "LiquidCrystal.h"
+#include "LiquidCrystalFast.h"
 #include <stdio.h>
 #include <string.h>
 #include <inttypes.h>

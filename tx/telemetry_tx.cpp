@@ -39,9 +39,9 @@
 //program setup
 void setup() {
 	serialComm.init("Telemetry Transmitter");
-	telemetryTx.radioInit();
-	telemetryTx.gpsInit();
 	telemetryTx.adxlInit();
+	telemetryTx.gpsInit();
+	telemetryTx.radioInit();
 }
 
 //program loop

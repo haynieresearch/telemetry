@@ -35,8 +35,11 @@ const String pgmver = "0.0.1";
 void serialComm::init(String pgm) {
 	delay(500);
 	Serial.begin(115200);
+	delay(10);
 	Serial.println(pgmco);
+	delay(10);
 	Serial.println("Initializing " + pgm + " Console");
-	Serial.println("Version: " + pgmver);
+	delay(10);
+	Serial.println("Version: " + pgmver + "\n");
 	delay(500);
 }
