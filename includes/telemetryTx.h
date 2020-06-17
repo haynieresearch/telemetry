@@ -35,7 +35,7 @@
 #define RFM95_INT 7
 #define RF95_FREQ 433.0
 
-#define DHTPIN 2
+#define DHTPIN 23
 #define DHTTYPE DHT22
 
 #include "Arduino.h"
@@ -53,6 +53,9 @@
 #include "RH_RF95.h"
 #include "ADXL345.h"
 #include "DHT.h"
+
+static const int RXPin = 9, TXPin = 6;
+static const uint32_t GPSBaud = 9600;
 
 class telemetryTx {
 public:

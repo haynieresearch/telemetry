@@ -29,11 +29,6 @@
 
 #include "telemetryTx.h"
 
-#define RFM95_CS 8
-#define RFM95_RST 4
-#define RFM95_INT 7
-#define RF95_FREQ 433.0
-
 char txStationID[11];
 int txObsNumber = 0;
 char txCurrentTime[6];
@@ -53,9 +48,6 @@ float maxAltTracking = 0;
 float maxSpeedTracking = 0;
 float maxAccelTracking = 0;
 char strBuffer[20];
-
-static const int RXPin = 11, TXPin = 10;
-static const uint32_t GPSBaud = 9600;
 
 TinyGPSPlus gps;
 SoftwareSerial ss(RXPin, TXPin);
