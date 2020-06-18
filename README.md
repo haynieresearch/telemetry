@@ -6,9 +6,8 @@ I am still in the prototyping phase and will update this document accordingly as
 
 P.S.: I will try to keep this repo error free when committing, but no promises. I am also working in [Eclipse](https://eclipse.baeyens.it/) and not the Arduino IDE so you may have to do some tweaking to get the includes to work properly. If you are using Eclipse, you will need to create separate projects for the RX and TX code which is pretty simple. Then you will need to create a folder link to the includes directory for each.
 
-### Folders
-* rx - Reciever
-* tx - Transmitter
-* includes - Various includes for rx/tx
-* reciever-app - Visual Basic app for viewing telemetry data
-* schematic - Fritzing schematics 
+## 3D Models
+### Nose Cone Electronics Bay
+!(Nose Cone 1)[https://raw.githubusercontent.com/haynieresearch/telemetry/master/3d-models/img/noze-cone-1.png]
+!(Nose Cone 2)[https://raw.githubusercontent.com/haynieresearch/telemetry/master/3d-models/img/noze-cone-2.png]
+!(Nose Cone Side 1)[https://raw.githubusercontent.com/haynieresearch/telemetry/master/3d-models/img/noze-cone-side-1.png]
