@@ -8,6 +8,7 @@ P.S.: I will try to keep this repo error free when committing, but no promises. 
 
 ## 3D Models
 ### Nose Cone Electronics Bay
+We hope to build a lightweight nose cone that will hold all telemetry components that will be drop in to standard sized model rockets. One testing has been completed for component fitment, center of gravity, etc. we will publish the STL's for anyone to 3D print their own.
 ![Nose Cone 1](https://raw.githubusercontent.com/haynieresearch/telemetry/master/3d-models/img/noze-cone-1.png)
 ![Nose Cone 2](https://raw.githubusercontent.com/haynieresearch/telemetry/master/3d-models/img/noze-cone-2.png)
 ![Nose Cone Side 1](https://raw.githubusercontent.com/haynieresearch/telemetry/master/3d-models/img/noze-cone-side-1.png)
