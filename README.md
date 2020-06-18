@@ -10,4 +10,4 @@ P.S.: I will try to keep this repo error free when committing, but no promises. 
 ### Nose Cone Electronics Bay
 ![Nose Cone 1](https://raw.githubusercontent.com/haynieresearch/telemetry/master/3d-models/img/noze-cone-1.png)
 ![Nose Cone 2](https://raw.githubusercontent.com/haynieresearch/telemetry/master/3d-models/img/noze-cone-2.png)
-![Nose Cone Side 1])https://raw.githubusercontent.com/haynieresearch/telemetry/master/3d-models/img/noze-cone-side-1.png)
+![Nose Cone Side 1](https://raw.githubusercontent.com/haynieresearch/telemetry/master/3d-models/img/noze-cone-side-1.png)
