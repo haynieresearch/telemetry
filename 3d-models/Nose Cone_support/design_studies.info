@@ -1,6 +1,6 @@
 <cfd_design_studies user_name="HAYNIE" version="19.2.20190802">
- <design_study folder="C:/Users/HAYNIE/source/repos/telemetry/3d-models/Nose Cone_support" instance_id="98773a58-a496-4257-9f11-f0da0529a745" study_id="f9e8ca97-2ad5-4ea6-b106-c61f23295734" name="Nose Cone_support">
-  <design launcher_type="CP_ASM_INVENTOR_IMPORT" lock_status="true" model_id="noze-cone.cfdsmt" name="Nose Cone">
+ <design_study folder="C:/Users/HAYNIE/source/repos/telemetry/3d-models/Nose Cone_support" instance_id="id_not_defined" study_id="f9e8ca97-2ad5-4ea6-b106-c61f23295734" name="Nose Cone_support">
+  <design launcher_type="CP_ASM_INVENTOR_IMPORT" lock_status="false" model_id="noze-cone.cfdsmt" name="Nose Cone">
    <analysis name="Aerodynamics"/>
   </design>
  </design_study>

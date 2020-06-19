@@ -1,1 +1,0 @@
-﻿Aerodynamics.res.s320

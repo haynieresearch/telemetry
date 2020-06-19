@@ -12,3 +12,8 @@ We hope to build a lightweight nose cone that will hold all telemetry components
 ![Nose Cone 1](https://raw.githubusercontent.com/haynieresearch/telemetry/master/3d-models/img/noze-cone-1.png)
 ![Nose Cone 2](https://raw.githubusercontent.com/haynieresearch/telemetry/master/3d-models/img/noze-cone-2.png)
 ![Nose Cone Side 1](https://raw.githubusercontent.com/haynieresearch/telemetry/master/3d-models/img/noze-cone-side-1.png)
+
+### Nose Cone CFD Results
+![Nose Cone CFD](https://raw.githubusercontent.com/haynieresearch/telemetry/master/3d-models/img/cfd.png)
+![Nose Cone CFD Trace](https://raw.githubusercontent.com/haynieresearch/telemetry/master/3d-models/img/cfd-trace.png)
+![Nose Cone CFD Wireframe(https://raw.githubusercontent.com/haynieresearch/telemetry/master/3d-models/img/cfd-wireframe.png)
