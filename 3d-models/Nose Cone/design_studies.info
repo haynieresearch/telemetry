@@ -1,0 +1,7 @@
+<cfd_design_studies version="19.2.20190802" user_name="HAYNIE">
+ <design_study name="Nose Cone" instance_id="id_not_defined" study_id="cb42c181-e0a6-4e5e-80ef-ed085584a620" folder="C:/Users/HAYNIE/source/repos/telemetry/3d-models/Nose Cone">
+  <design name="Nose Cone" launcher_type="CP_ASM_INVENTOR_IMPORT" lock_status="false" model_id="noze-cone.cfdsmt">
+   <analysis name="Aerodynamics"/>
+  </design>
+ </design_study>
+</cfd_design_studies>

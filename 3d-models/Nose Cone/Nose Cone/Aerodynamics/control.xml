@@ -1,0 +1,6 @@
+<Control>
+ <Solver_Computer>MyComputer</Solver_Computer>
+ <Solution_Mode>Steady State</Solution_Mode>
+ <Flow>true</Flow>
+ <Heat_Transfer>false</Heat_Transfer>
+</Control>

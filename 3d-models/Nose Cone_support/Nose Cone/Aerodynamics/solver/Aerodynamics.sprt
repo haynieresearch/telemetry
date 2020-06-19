@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Part_Summary_Data>
+    <Units>cm</Units>
+    <This_Parts_Data id="4">
+        <Part_Volume>265.388</Part_Volume>
+        <Part_TAvg>0</Part_TAvg>
+        <Part_TMin>273.15</Part_TMin>
+        <Part_TMax>273.15</Part_TMax>
+    </This_Parts_Data>
+    <This_Parts_Data id="5">
+        <Part_Volume>6393</Part_Volume>
+        <Part_TAvg>0</Part_TAvg>
+        <Part_TMin>273.15</Part_TMin>
+        <Part_TMax>273.15</Part_TMax>
+    </This_Parts_Data>
+    <This_Parts_Data id="2">
+        <Part_Volume>18.4245</Part_Volume>
+        <Part_TAvg>0</Part_TAvg>
+        <Part_TMin>273.15</Part_TMin>
+        <Part_TMax>273.15</Part_TMax>
+    </This_Parts_Data>
+    <This_Parts_Data id="3">
+        <Part_Volume>14.2769</Part_Volume>
+        <Part_TAvg>0</Part_TAvg>
+        <Part_TMin>273.15</Part_TMin>
+        <Part_TMax>273.15</Part_TMax>
+    </This_Parts_Data>
+    <This_Parts_Data id="1">
+        <Part_Volume>1.933</Part_Volume>
+        <Part_TAvg>0</Part_TAvg>
+        <Part_TMin>273.15</Part_TMin>
+        <Part_TMax>273.15</Part_TMax>
+    </This_Parts_Data>
+</Part_Summary_Data>
