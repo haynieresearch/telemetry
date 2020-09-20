@@ -1,14 +1,14 @@
 /*
  **********************************************************
  * CATEGORY	HARDWARE
- * GROUP		TELEMETRY SYSTEM
+ * GROUP	TELEMETRY SYSTEM
  * AUTHOR	LANCE HAYNIE <LANCE@HAYNIEMAIL.COM>
- * DATE		2020-06-05
- * PURPOSE	LCD DISPLAY FUNCTIONS
- * FILE		LCDDISPLAY.H
+ * DATE		2020-09-20
+ * PURPOSE	TFT SCREEN FUNCTIONS
+ * FILE		TFTCOMM.H
  **********************************************************
  * MODIFICATIONS
- * 2020-06-05 - LHAYNIE - INITIAL VERSION
+ * 2020-09-20 - LHAYNIE - INITIAL VERSION
  **********************************************************
  Telemetry Tracking & Reporting System
  Copyright (C) 2020  Haynie Research & Development, LLC
@@ -27,30 +27,22 @@
  with this program; if not, write to the Free Software Foundation, Inc.,
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA */
 
-#ifndef LCDDISPLAY_H
-#define LCDDISPLAY_H
+#ifndef TFTCOMM_H
+#define TFTCOMM_H
 
-#include "Arduino.h"
-#include "LiquidCrystal.h"
-#include "LiquidCrystalFast.h"
-#include <stdio.h>
-#include <string.h>
-#include <inttypes.h>
+#include "ST7735.h"
+#include "SdFat.h"
+#include "ImageReader.h"
 
-class lcdDisplay {
+#define SD_CS   18 // SD card select pin
+#define TFT_CS  19 // TFT select pin
+#define TFT_DC  20 // TFT display/command pin
+#define TFT_RST -1 // Or set to -1 and connect to RESET pin
+
+class tftComm {
 public:
 	void init();
-	void splash();
-	void clear();
-	void clearTop();
-	void clearBottom();
-	void setCursor(int x, int y);
-	String print(String s);
-	int print(int i);
-	char print(char c);
-	float print(float f);
-	void squared();
 };
 
-extern lcdDisplay lcdDisplay;
+extern tftComm tftComm;
 #endif

@@ -33,12 +33,12 @@
 #include "Arduino.h"
 #include <SPI.h>
 #include "serialComm.h"
-#include "lcdDisplay.h"
 #include "checkSum.h"
 #include "memory.h"
 #include "battery.h"
 #include "RHReliableDatagram.h"
 #include "RH_RF95.h"
+#include "tftComm.h"
 
 class telemetryRx {
 public:
